@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>ALDUIN</title>
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="stylesheet" href="style.css">
+
+<meta name="theme-color" content="#180026">
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- ЗАГРУЗКА -->
+<!-- ========================= -->
+
+<div id="loader">
+
+<div class="loader-bg"></div>
+
+<div class="dragon-eye">
+
+<div class="iris">
+
+<div class="pupil"></div>
+
+</div>
+
+</div>
+
+<h1 class="loader-title">
+
+ALDUIN
+
+</h1>
+
+<p class="loader-sub">
+
+Пробуждение дракона...
+
+</p>
+
+</div>
+
+<!-- ========================= -->
+<!-- ПРИЛОЖЕНИЕ -->
+<!-- ========================= -->
+
+<div id="app" style="display:none;">
+
+<header class="topbar">
+
+<div class="logoBox">
+
+<div class="dragonIcon"></div>
+
+<div>
+
+<h1>ALDUIN</h1>
+
+<p>
+Dark Fantasy Journal
+</p>
+
+</div>
+
+</div>
+
+<nav>
+
+<button
+class="navButton"
+data-page="home">
+
+🏰 Главная
+
+</button>
+
+<button
+class="navButton"
+data-page="diary">
+
+📖 Дневник
+
+</button>
+
+<button
+class="navButton"
+data-page="gallery">
+
+🖼 Галерея
+
+</button>
+
+<button
+class="navButton"
+data-page="profile">
+
+👑 Профиль
+
+</button>
+
+<button
+class="navButton"
+data-page="settings">
+
+⚙ Настройки
+
+</button>
+
+</nav>
+
+</header>
+
+<main>
+
+<!-- ========================= -->
+<!-- HOME -->
+<!-- ========================= -->
+
+<section
+id="home"
+class="page active">
+
+<div class="hero">
+
+<h2>
+
+Добро пожаловать
+
+</h2>
+
+<p>
+
+Личный мир Alduin.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+Статистика
+
+</h3>
+
+<p>
+
+Дней вместе:
+
+<span id="daysTogether">
+
+0
+
+</span>
+
+</p>
+
+<p>
+
+Записей:
+
+<span id="notesCount">
+
+0
+
+</span>
+
+</p>
+
+<p>
+
+Изображений:
+
+<span id="imagesCount">
+
+0
+
+</span>
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+Последняя запись
+
+</h3>
+
+<p id="lastDiary">
+
+Пока нет записей...
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- ДНЕВНИК -->
+<!-- ========================= -->
+
+<section
+id="diary"
+class="page">
+
+<h2>
+
+Личный дневник
+
+</h2>
+
+<textarea
+
+id="diaryText"
+
+placeholder="Напиши свои мысли..."
+
+></textarea>
+
+<button
+id="saveDiary">
+
+💾 Сохранить
+
+</button>
+
+</section>
+<!-- ========================= -->
+<!-- ГАЛЕРЕЯ -->
+<!-- ========================= -->
+
+<section
+id="gallery"
+class="page">
+
+<h2>
+
+Галерея
+
+</h2>
+
+<div class="card">
+
+<input
+
+type="file"
+
+id="imageInput"
+
+accept="image/*"
+
+multiple
+
+>
+
+<p>
+
+Можно загружать сколько угодно изображений.
+
+Они сохраняются автоматически.
+
+</p>
+
+</div>
+
+<div
+
+id="galleryGrid"
+
+class="galleryGrid">
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- ПРОФИЛЬ -->
+<!-- ========================= -->
+
+<section
+
+id="profile"
+
+class="page">
+
+<h2>
+
+Профиль
+
+</h2>
+
+<div class="profileCard">
+
+<div class="profileImage">
+
+<img
+
+id="profilePhoto"
+
+src="assets/default-avatar.png"
+
+alt="Profile"
+
+>
+
+</div>
+
+<div class="profileInfo">
+
+<h3>
+
+ALDUIN
+
+</h3>
+
+<p>
+
+Дата создания
+
+</p>
+
+<p>
+
+2 августа 2026
+
+</p>
+
+<p>
+
+Тип
+
+</p>
+
+<p>
+
+Тульпа
+
+</p>
+
+<p>
+
+Описание
+
+</p>
+
+<textarea
+
+id="profileDescription"
+
+placeholder="Напиши описание..."
+
+></textarea>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- НАСТРОЙКИ -->
+<!-- ========================= -->
+
+<section
+
+id="settings"
+
+class="page">
+
+<h2>
+
+Настройки
+
+</h2>
+
+<div class="card">
+
+<button
+
+id="musicButton">
+
+🎵 Музыка
+
+</button>
+
+<button
+
+id="exportButton">
+
+📦 Экспорт данных
+
+</button>
+
+<button
+
+id="importButton">
+
+📥 Импорт данных
+
+</button>
+
+<button
+
+id="clearButton">
+
+🗑 Очистить данные
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- ПРОСМОТР ФОТО -->
+<!-- ========================= -->
+
+<div
+
+id="imageViewer"
+
+class="hidden">
+
+<span
+
+id="closeViewer">
+
+✕
+
+</span>
+
+<img
+
+id="viewerImage"
+
+src=""
+
+alt="">
+
+</div>
+<!-- ========================= -->
+<!-- МУЗЫКА -->
+<!-- ========================= -->
+
+<audio
+
+id="bgMusic"
+
+loop>
+
+<source
+
+src="assets/music/theme.mp3"
+
+type="audio/mpeg">
+
+</audio>
+
+<!-- ========================= -->
+<!-- ВСПЛЫВАЮЩИЕ УВЕДОМЛЕНИЯ -->
+<!-- ========================= -->
+
+<div
+
+id="toast"
+
+class="toast">
+
+Готово
+
+</div>
+
+<!-- ========================= -->
+<!-- ФОН -->
+<!-- ========================= -->
+
+<div id="backgroundGlow"></div>
+
+<div id="backgroundStars"></div>
+
+<div id="backgroundFog"></div>
+
+<canvas id="particlesCanvas"></canvas>
+
+<!-- ========================= -->
+<!-- МОДАЛЬНОЕ ОКНО -->
+<!-- ========================= -->
+
+<div
+
+id="modal"
+
+class="hidden">
+
+<div
+
+class="modalContent">
+
+<h2>
+
+Подтверждение
+
+</h2>
+
+<p id="modalText">
+
+Вы уверены?
+
+</p>
+
+<div class="modalButtons">
+
+<button id="modalYes">
+
+Да
+
+</button>
+
+<button id="modalNo">
+
+Нет
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- FOOTER -->
+<!-- ========================= -->
+
+<footer>
+
+<p>
+
+ALDUIN
+
+Dark Fantasy Journal
+
+</p>
+
+</footer>
+
+<script src="loader.js"></script>
+
+<script src="particles.js"></script>
+
+<script src="background.js"></script>
+
+<script src="fog.js"></script>
+
+<script src="eye.js"></script>
+
+<script src="animations.js"></script>
+
+<script src="storage.js"></script>
+
+<script src="gallery.js"></script>
+
+<script src="music.js"></script>
+
+<script src="app.js"></script>
+<!-- ========================= -->
+<!-- ЗАКРЫТИЕ MAIN -->
+<!-- ========================= -->
+
+</main>
+
+</div>
+
+<!-- ========================= -->
+<!-- СКРИПТЫ -->
+<!-- ========================= -->
+
+<script src="loader.js"></script>
+
+<script src="navigation.js"></script>
+
+<script src="animations.js"></script>
+
+<script src="background.js"></script>
+
+<script src="particles.js"></script>
+
+<script src="fog.js"></script>
+
+<script src="eye.js"></script>
+
+<script src="storage.js"></script>
+
+<script src="gallery.js"></script>
+
+<script src="music.js"></script>
+
+<script src="app.js"></script>
+
+</body>
+
+</html>

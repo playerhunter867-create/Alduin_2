@@ -1,0 +1,1002 @@
+/* ================================= */
+/* ALDUIN DARK FANTASY THEME */
+/* ================================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+
+width:100%;
+height:100%;
+
+font-family:Georgia,serif;
+
+background:#0b0215;
+
+color:#ffffff;
+
+overflow-x:hidden;
+
+}
+
+/* ====================== */
+/* ФОН */
+/* ====================== */
+
+body{
+
+background:
+
+radial-gradient(circle at top,
+#2b0746 0%,
+#150022 40%,
+#080010 100%);
+
+}
+
+/* ====================== */
+/* ЗАГРУЗЧИК */
+/* ====================== */
+
+#loader{
+
+position:fixed;
+
+inset:0;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+background:#090012;
+
+z-index:99999;
+
+transition:1s;
+
+}
+
+#loader.hide{
+
+opacity:0;
+
+pointer-events:none;
+
+}
+
+.loader-title{
+
+font-size:58px;
+
+letter-spacing:12px;
+
+font-weight:bold;
+
+color:#c16fff;
+
+text-shadow:
+
+0 0 10px #a64dff,
+
+0 0 30px #8f36ff,
+
+0 0 70px #7428ff;
+
+animation:
+
+logoPulse 3s infinite;
+
+}
+
+.loader-sub{
+
+margin-top:25px;
+
+font-size:18px;
+
+letter-spacing:6px;
+
+opacity:.75;
+
+color:#bcb0d8;
+
+}
+
+/* ====================== */
+/* ГЛАЗ */
+/* ====================== */
+
+.dragon-eye{
+
+width:150px;
+
+height:150px;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(circle,
+#ffca55,
+#ff8d00 55%,
+#280000);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+box-shadow:
+
+0 0 25px #ff7300,
+
+0 0 70px #ff2a00;
+
+margin-bottom:35px;
+
+animation:
+
+eyeGlow 4s infinite;
+
+}
+
+.iris{
+
+width:55px;
+
+height:120px;
+
+background:black;
+
+border-radius:50px;
+
+animation:
+
+blink 6s infinite;
+
+}
+
+/* ====================== */
+/* ШАПКА */
+/* ====================== */
+
+.topbar{
+
+position:sticky;
+
+top:0;
+
+backdrop-filter:blur(20px);
+
+background:rgba(15,0,35,.65);
+
+border-bottom:
+
+1px solid rgba(255,255,255,.08);
+
+padding:18px;
+
+z-index:500;
+
+}
+
+.logoBox{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.logoBox h1{
+
+font-size:34px;
+
+letter-spacing:6px;
+
+color:#cb8cff;
+
+text-shadow:
+
+0 0 12px #b255ff;
+
+}
+
+.logoBox p{
+
+opacity:.7;
+
+font-size:13px;
+
+letter-spacing:2px;
+
+}
+/* ===========================
+   ШАПКА
+=========================== */
+
+.topbar{
+position:sticky;
+top:0;
+z-index:50;
+
+background:rgba(12,6,22,.92);
+backdrop-filter:blur(14px);
+
+padding:18px;
+
+border-bottom:1px solid rgba(180,90,255,.2);
+
+box-shadow:
+0 0 25px rgba(160,80,255,.15);
+}
+
+.logo{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:15px;
+}
+
+.logo h1{
+
+font-size:42px;
+
+letter-spacing:8px;
+
+color:#dca8ff;
+
+text-shadow:
+
+0 0 12px #a855ff,
+
+0 0 30px #7b2cff,
+
+0 0 60px #7b2cff;
+
+animation:logoGlow 3s infinite;
+}
+
+@keyframes logoGlow{
+
+0%{
+text-shadow:
+0 0 10px #8a2cff;
+}
+
+50%{
+
+text-shadow:
+
+0 0 25px #bf70ff,
+
+0 0 50px #8a2cff,
+
+0 0 80px #8a2cff;
+}
+
+100%{
+text-shadow:
+0 0 10px #8a2cff;
+}
+
+}
+
+.dragon{
+
+font-size:48px;
+
+animation:dragonFloat 4s ease-in-out infinite;
+}
+
+@keyframes dragonFloat{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-6px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
+}
+
+/* ===========================
+   КНОПКИ МЕНЮ
+=========================== */
+
+nav{
+
+display:flex;
+
+gap:12px;
+
+margin-top:18px;
+
+overflow-x:auto;
+
+padding-bottom:4px;
+}
+
+nav button{
+
+flex:1;
+
+padding:16px;
+
+border:none;
+
+border-radius:18px;
+
+background:linear-gradient(145deg,#42106d,#6e24be);
+
+color:white;
+
+font-size:16px;
+
+font-weight:bold;
+
+transition:.35s;
+
+box-shadow:
+
+0 0 18px rgba(130,40,255,.35);
+}
+
+nav button:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+
+0 0 28px #a855ff;
+}
+
+nav button.active{
+
+background:#b04cff;
+
+box-shadow:
+
+0 0 40px #d678ff;
+}
+/* ===========================
+   СТРАНИЦЫ
+=========================== */
+
+main{
+padding:22px;
+}
+
+.page{
+
+display:none;
+
+animation:pageFade .5s ease;
+}
+
+.page.active{
+display:block;
+}
+
+@keyframes pageFade{
+
+from{
+opacity:0;
+transform:translateY(25px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.page h2{
+
+font-size:34px;
+
+margin-bottom:20px;
+
+color:#dfb0ff;
+
+text-shadow:
+0 0 15px #a855ff;
+}
+
+/* ===========================
+   КАРТОЧКИ
+=========================== */
+
+.card{
+
+background:rgba(28,12,45,.88);
+
+border:1px solid rgba(180,120,255,.2);
+
+border-radius:24px;
+
+padding:22px;
+
+margin-bottom:24px;
+
+backdrop-filter:blur(18px);
+
+box-shadow:
+
+0 0 35px rgba(120,40,255,.18);
+
+transition:.35s;
+}
+
+.card:hover{
+
+transform:translateY(-5px);
+
+box-shadow:
+
+0 0 45px rgba(180,90,255,.35);
+}
+
+/* ===========================
+   INPUT
+=========================== */
+
+input,
+textarea{
+
+width:100%;
+
+background:#180826;
+
+border:1px solid #6f2cff;
+
+border-radius:16px;
+
+padding:16px;
+
+color:white;
+
+font-size:17px;
+
+outline:none;
+
+margin-top:12px;
+
+margin-bottom:18px;
+
+transition:.3s;
+}
+
+input:focus,
+textarea:focus{
+
+border-color:#d47dff;
+
+box-shadow:
+
+0 0 20px #9f49ff;
+}
+
+textarea{
+
+min-height:180px;
+
+resize:vertical;
+}
+
+/* ===========================
+   КНОПКИ
+=========================== */
+
+button{
+
+cursor:pointer;
+
+padding:16px;
+
+border:none;
+
+border-radius:18px;
+
+font-weight:bold;
+
+font-size:17px;
+
+background:
+
+linear-gradient(135deg,#7a2cff,#b44cff);
+
+color:white;
+
+transition:.35s;
+
+box-shadow:
+
+0 0 25px rgba(150,60,255,.35);
+}
+
+button:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+
+0 0 35px #d878ff;
+}
+/* ===========================
+   ГАЛЕРЕЯ
+=========================== */
+
+.galleryGrid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fill,minmax(140px,1fr));
+
+gap:18px;
+
+margin-top:25px;
+
+}
+
+.galleryGrid img{
+
+width:100%;
+
+height:140px;
+
+object-fit:cover;
+
+border-radius:18px;
+
+cursor:pointer;
+
+transition:.4s;
+
+border:2px solid rgba(180,90,255,.25);
+
+box-shadow:
+
+0 0 18px rgba(120,40,255,.25);
+
+}
+
+.galleryGrid img:hover{
+
+transform:scale(1.08);
+
+border-color:#d27dff;
+
+box-shadow:
+
+0 0 35px #b155ff;
+
+}
+
+/* ===========================
+   ПРОСМОТР ФОТО
+=========================== */
+
+#imageViewer{
+
+position:fixed;
+
+inset:0;
+
+background:rgba(0,0,0,.92);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:9999;
+
+opacity:0;
+
+pointer-events:none;
+
+transition:.35s;
+
+}
+
+#imageViewer.show{
+
+opacity:1;
+
+pointer-events:auto;
+
+}
+
+#viewerImage{
+
+max-width:92%;
+
+max-height:90%;
+
+border-radius:24px;
+
+border:3px solid #b86dff;
+
+box-shadow:
+
+0 0 60px rgba(180,80,255,.55);
+
+animation:viewerAppear .4s ease;
+
+}
+
+@keyframes viewerAppear{
+
+from{
+
+opacity:0;
+
+transform:scale(.85);
+
+}
+
+to{
+
+opacity:1;
+
+transform:scale(1);
+
+}
+
+}
+
+#closeViewer{
+
+position:absolute;
+
+top:25px;
+
+right:30px;
+
+font-size:42px;
+
+cursor:pointer;
+
+color:white;
+
+transition:.3s;
+
+}
+
+#closeViewer:hover{
+
+transform:rotate(90deg);
+
+color:#d88cff;
+
+}
+
+/* ===========================
+   TOAST
+=========================== */
+
+.toast{
+
+position:fixed;
+
+left:50%;
+
+bottom:35px;
+
+transform:translateX(-50%);
+
+background:rgba(30,10,50,.95);
+
+padding:15px 30px;
+
+border-radius:30px;
+
+border:1px solid #b86dff;
+
+color:white;
+
+box-shadow:
+
+0 0 30px rgba(180,90,255,.45);
+
+opacity:0;
+
+pointer-events:none;
+
+transition:.4s;
+
+z-index:99999;
+
+}
+
+.toast.show{
+
+opacity:1;
+
+bottom:55px;
+
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+footer{
+
+margin-top:50px;
+
+padding:25px;
+
+text-align:center;
+
+color:#bda4dd;
+
+font-size:14px;
+
+letter-spacing:3px;
+
+border-top:1px solid rgba(255,255,255,.08);
+
+}
+/* ===========================
+   ФОН И ЭФФЕКТЫ
+=========================== */
+
+#backgroundGlow{
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+background:
+
+radial-gradient(circle at center,
+rgba(150,60,255,.12),
+transparent 70%);
+
+animation:glowMove 12s infinite alternate;
+
+z-index:-5;
+
+}
+
+@keyframes glowMove{
+
+0%{
+
+transform:scale(1);
+
+filter:blur(0px);
+
+}
+
+100%{
+
+transform:scale(1.3);
+
+filter:blur(25px);
+
+}
+
+}
+
+/* ===========================
+   ТУМАН
+=========================== */
+
+#backgroundFog{
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+background:
+
+linear-gradient(
+180deg,
+rgba(255,255,255,.02),
+rgba(120,60,255,.05),
+rgba(0,0,0,.08));
+
+animation:fogMove 25s linear infinite;
+
+opacity:.7;
+
+z-index:-4;
+
+}
+
+@keyframes fogMove{
+
+0%{
+
+transform:translateX(-8%);
+
+}
+
+100%{
+
+transform:translateX(8%);
+
+}
+
+}
+
+/* ===========================
+   ПЛАВНОЕ ПОЯВЛЕНИЕ
+=========================== */
+
+#app{
+
+animation:appFade .8s ease;
+
+}
+
+@keyframes appFade{
+
+from{
+
+opacity:0;
+
+transform:translateY(15px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* ===========================
+   ПЛАВАЮЩИЙ ЛОГОТИП
+=========================== */
+
+.logoBox{
+
+animation:logoFloat 5s ease-in-out infinite;
+
+}
+
+@keyframes logoFloat{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-6px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+/* ===========================
+   ПОЛОСА ПРОКРУТКИ
+=========================== */
+
+::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#12051d;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#8a2cff;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+background:#c06fff;
+
+}
+
+/* ===========================
+   АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНА
+=========================== */
+
+@media(max-width:700px){
+
+.logo h1{
+
+font-size:30px;
+
+letter-spacing:5px;
+
+}
+
+nav{
+
+flex-direction:column;
+
+}
+
+nav button{
+
+width:100%;
+
+}
+
+.page h2{
+
+font-size:28px;
+
+}
+
+.galleryGrid{
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+.card{
+
+padding:18px;
+
+}
+
+button{
+
+font-size:16px;
+
+}
+
+textarea{
+
+min-height:160px;
+
+}
+
+}
+
+/* ===========================
+   КОНЕЦ STYLE.CSS
+=========================== */
