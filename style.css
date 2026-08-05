@@ -1724,3 +1724,10 @@ transition:transform .25s ease;
 transform:scale(1.05);
 
 }
+.galleryImage{
+    width:100% !important;
+    height:160px !important;
+    object-fit:cover !important;
+    border-radius:20px;
+    display:block;
+}
