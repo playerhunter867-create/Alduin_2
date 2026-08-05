@@ -1,33 +1,38 @@
-document.querySelectorAll("button").forEach(btn=>{
+// ALDUIN Smooth Animations
 
-btn.addEventListener("click",()=>{
+const pages = document.querySelectorAll(".page");
+const buttons = document.querySelectorAll("nav button");
 
-btn.animate([
+function showPage(id){
 
-{
+    pages.forEach(page=>{
+        page.classList.remove("active");
+    });
 
-transform:"scale(.9)"
+    buttons.forEach(btn=>{
+        btn.classList.remove("active");
+    });
 
-},
+    requestAnimationFrame(()=>{
 
-{
+        const page=document.getElementById(id);
 
-transform:"scale(1.05)"
+        if(page){
 
-},
+            page.classList.add("active");
 
-{
+        }
 
-transform:"scale(1)"
+        const button=document.querySelector(
+            `button[onclick="showPage('${id}')"]`
+        );
+
+        if(button){
+
+            button.classList.add("active");
+
+        }
+
+    });
 
 }
-
-],{
-
-duration:300
-
-});
-
-});
-
-});
