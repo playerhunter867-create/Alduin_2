@@ -347,3 +347,14 @@ Math.floor(
 console.log("Дней вместе:", daysTogether);document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("loaded");
 });
+window.addEventListener("load", () => {
+
+    const loader = document.getElementById("loader");
+
+    setTimeout(() => {
+
+        loader.classList.add("hideLoader");
+
+    }, 1800);
+
+});
