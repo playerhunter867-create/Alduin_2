@@ -997,6 +997,37 @@ min-height:160px;
 
 }
 
-/* ===========================
-   КОНЕЦ STYLE.CSS
-=========================== */
+/* =======================================
+   PERFORMANCE MODE
+======================================= */
+
+*{
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+body{
+
+    transform:translateZ(0);
+    will-change:transform;
+
+}
+
+button,
+.card,
+img,
+.page,
+.logo,
+.dragon-eye{
+
+    will-change:transform,opacity;
+
+}
+
+canvas{
+
+    transform:translateZ(0);
+
+}
