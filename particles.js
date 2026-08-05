@@ -1,67 +1,143 @@
+"use strict";
+
+/* ==========================================
+   ALDUIN PARTICLES
+========================================== */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
 const canvas=document.getElementById("particlesCanvas");
+
+if(!canvas)return;
+
 const ctx=canvas.getContext("2d");
 
-function resize(){
+let w=window.innerWidth;
+let h=window.innerHeight;
 
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-}
-
-resize();
-
-window.addEventListener("resize",resize);
+canvas.width=w;
+canvas.height=h;
 
 const particles=[];
 
-for(let i=0;i<120;i++){
+const COUNT=80;
+  /* ==========================================
+   CREATE PARTICLES
+========================================== */
 
-particles.push({
+class Particle{
 
-x:Math.random()*canvas.width,
+constructor(){
 
-y:Math.random()*canvas.height,
+this.reset();
 
-vx:(Math.random()-.5)*.5,
-
-vy:(Math.random()-.5)*.5,
-
-r:Math.random()*2+1
-
-});
+this.y=Math.random()*h;
 
 }
 
-function draw(){
+reset(){
 
-ctx.clearRect(0,0,canvas.width,canvas.height);
+this.x=Math.random()*w;
 
-for(let p of particles){
+this.y=h+Math.random()*150;
+
+this.size=1+Math.random()*3;
+
+this.speed=0.2+Math.random()*0.8;
+
+this.alpha=0.2+Math.random()*0.8;
+
+this.dx=(Math.random()-0.5)*0.3;
+
+}
+
+update(){
+
+this.y-=this.speed;
+
+this.x+=this.dx;
+
+if(this.y<-20){
+
+this.reset();
+
+}
+
+}
+
+draw(){
 
 ctx.beginPath();
 
-ctx.fillStyle="#b86dff";
+ctx.arc(
 
-ctx.shadowBlur=18;
+this.x,
+
+this.y,
+
+this.size,
+
+0,
+
+Math.PI*2
+
+);
+
+ctx.fillStyle=`rgba(180,100,255,${this.alpha})`;
+
+ctx.shadowBlur=12;
 
 ctx.shadowColor="#b86dff";
 
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-
 ctx.fill();
 
-p.x+=p.vx;
-p.y+=p.vy;
-
-if(p.x<0)p.x=canvas.width;
-if(p.x>canvas.width)p.x=0;
-if(p.y<0)p.y=canvas.height;
-if(p.y>canvas.height)p.y=0;
+}
 
 }
 
-requestAnimationFrame(draw);
+for(let i=0;i<COUNT;i++){
+
+particles.push(new Particle());
+
+}
+  /* ==========================================
+   ANIMATION
+========================================== */
+
+function animate(){
+
+ctx.clearRect(0,0,w,h);
+
+for(const particle of particles){
+
+particle.update();
+
+particle.draw();
 
 }
 
-draw();
+requestAnimationFrame(animate);
+
+}
+
+animate();
+
+/* ==========================================
+   RESIZE
+========================================== */
+
+window.addEventListener("resize",()=>{
+
+w=window.innerWidth;
+h=window.innerHeight;
+
+canvas.width=w;
+canvas.height=h;
+
+});
+
+/* ==========================================
+   END
+========================================== */
+
+});
