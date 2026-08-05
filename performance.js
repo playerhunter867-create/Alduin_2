@@ -58,3 +58,32 @@ console.log("Alduin resumed");
 }
 
 });
+// FPS Monitor
+
+let fps=0;
+
+let frames=0;
+
+let last=performance.now();
+
+function fpsLoop(now){
+
+frames++;
+
+if(now-last>=1000){
+
+fps=frames;
+
+frames=0;
+
+last=now;
+
+// console.log("FPS:",fps);
+
+}
+
+requestAnimationFrame(fpsLoop);
+
+}
+
+requestAnimationFrame(fpsLoop);
