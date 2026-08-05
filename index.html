@@ -39,26 +39,34 @@
 <!-- Основной сайт -->
 <div id="app" style="display:none;">
 
-<header>
+<header class="topbar">
 
-<h1>Alduin</h1>
+<div class="logo">
+    <span class="dragon">🐉</span>
+    <h1>ALDUIN</h1>
+</div>
 
 <nav>
 
-<button data-page="home">Главная</button>
+<button onclick="showPage('diary')">
+📖 Дневник
+</button>
 
-<button data-page="diary">Дневник</button>
+<button onclick="showPage('gallery')">
+🖼 Галерея
+</button>
 
-<button data-page="gallery">Галерея</button>
+<button onclick="showPage('profile')">
+👑 Профиль
+</button>
 
-<button data-page="profile">Профиль</button>
-
-<button data-page="settings">Настройки</button>
+<button onclick="showPage('settings')">
+⚙ Настройки
+</button>
 
 </nav>
 
 </header>
-
 <main>
 
 <section id="home" class="page">
