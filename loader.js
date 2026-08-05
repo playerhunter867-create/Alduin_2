@@ -1,55 +1,100 @@
 "use strict";
 
-window.addEventListener("load", () => {
+/* ==========================================
+   ALDUIN LOADER
+========================================== */
 
-const loader = document.getElementById("loader");
-const app = document.getElementById("app");
+window.addEventListener("load",()=>{
 
-if (!loader || !app) return;
+const loader=document.getElementById("loader");
+const app=document.getElementById("app");
 
-app.style.display = "block";
+if(!loader||!app)return;
 
-requestAnimationFrame(() => {
+app.style.display="block";
 
-setTimeout(() => {
+let finished=false;
+   /* ==========================================
+   HIDE LOADER
+========================================== */
+
+function hideLoader(){
+
+if(finished)return;
+
+finished=true;
 
 loader.classList.add("hide");
 
-}, 1600);
-
-});
-
-});
-/* ==========================================
-   REMOVE LOADER
-========================================== */
-
-const removeLoader = () => {
-
-loader.classList.add("hide");
-
-setTimeout(() => {
+setTimeout(()=>{
 
 loader.remove();
 
-}, 700);
-
-};
-
-setTimeout(removeLoader, 1800);
-
-/* ==========================================
-   FAILSAFE
-========================================== */
-
-setTimeout(() => {
-
-if (document.body.contains(loader)) {
-
-loader.remove();
+},700);
 
 }
 
-}, 5000);
+/* ==========================================
+   START APP
+========================================== */
+
+requestAnimationFrame(()=>{
+
+setTimeout(()=>{
+
+hideLoader();
+
+},1800);
+
+});
+   /* ==========================================
+   FAILSAFE
+========================================== */
+
+setTimeout(()=>{
+
+if(!finished){
+
+hideLoader();
+
+}
+
+},5000);
+
+/* ==========================================
+   PAGE SHOW
+========================================== */
+
+window.addEventListener("pageshow",()=>{
+
+if(!finished){
+
+hideLoader();
+
+}
+
+});
+
+/* ==========================================
+   VISIBILITY CHANGE
+========================================== */
+
+document.addEventListener("visibilitychange",()=>{
+
+if(document.visibilityState==="visible"&&!finished){
+
+setTimeout(()=>{
+
+hideLoader();
+
+},300);
+
+}
+
+});
+
+/* ==========================================
+   END
+========================================== */
 
 });
