@@ -1,65 +1,159 @@
-const iris = document.querySelector(".iris");
+"use strict";
 
-let targetX = 0;
-let targetY = 0;
+/* ==========================================
+   ALDUIN DRAGON EYE
+========================================== */
 
-let currentX = 0;
-let currentY = 0;
+document.addEventListener("DOMContentLoaded",()=>{
 
-document.addEventListener("mousemove",(e)=>{
+const eye=document.querySelector(".dragon-eye");
+const iris=document.querySelector(".iris");
 
-    const x=(e.clientX/window.innerWidth-0.5)*24;
-    const y=(e.clientY/window.innerHeight-0.5)*24;
+if(!eye||!iris)return;
 
-    targetX=x;
-    targetY=y;
+let mouseX=0;
+let mouseY=0;
 
-});
+let currentX=0;
+let currentY=0;
 
-document.addEventListener("touchmove",(e)=>{
+const maxMove=18;
+    /* ==========================================
+   POINTER TRACKING
+========================================== */
 
-    const t=e.touches[0];
+function updatePointer(x,y){
 
-    const x=(t.clientX/window.innerWidth-0.5)*24;
-    const y=(t.clientY/window.innerHeight-0.5)*24;
+const rect=eye.getBoundingClientRect();
 
-    targetX=x;
-    targetY=y;
+const centerX=rect.left+rect.width/2;
+const centerY=rect.top+rect.height/2;
 
-},{passive:true});
+const dx=x-centerX;
+const dy=y-centerY;
 
-function animate(){
+const distance=Math.sqrt(dx*dx+dy*dy)||1;
 
-    currentX+=(targetX-currentX)*0.12;
-    currentY+=(targetY-currentY)*0.12;
-
-    iris.style.transform=
-    `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
-
-    requestAnimationFrame(animate);
+mouseX=(dx/distance)*Math.min(maxMove,distance/18);
+mouseY=(dy/distance)*Math.min(maxMove,distance/18);
 
 }
 
-animate();
+/* ---------- Мышь ---------- */
 
-/* Случайное моргание */
+window.addEventListener("mousemove",(e)=>{
+
+updatePointer(e.clientX,e.clientY);
+
+});
+
+/* ---------- Палец ---------- */
+
+window.addEventListener("touchmove",(e)=>{
+
+const touch=e.touches[0];
+
+if(!touch)return;
+
+updatePointer(touch.clientX,touch.clientY);
+
+},{passive:true});
+    /* ==========================================
+   SMOOTH MOVEMENT
+========================================== */
+
+function animateEye(){
+
+currentX+=(mouseX-currentX)*0.12;
+currentY+=(mouseY-currentY)*0.12;
+
+iris.style.transform=
+
+`translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
+
+requestAnimationFrame(animateEye);
+
+}
+
+requestAnimationFrame(animateEye);
+
+/* ==========================================
+   RETURN TO CENTER
+========================================== */
+
+window.addEventListener("mouseleave",()=>{
+
+mouseX=0;
+mouseY=0;
+
+});
+
+window.addEventListener("touchend",()=>{
+
+mouseX=0;
+mouseY=0;
+
+});
+
+window.addEventListener("touchcancel",()=>{
+
+mouseX=0;
+mouseY=0;
+
+});
+    /* ==========================================
+   AUTO BLINK
+========================================== */
 
 function blink(){
 
-    iris.style.transition="transform .08s";
+iris.animate(
 
-    iris.style.transform+=
-    " scaleY(0.05)";
+[
 
-    setTimeout(()=>{
+{transform:`translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px)) scaleY(1)`},
 
-        iris.style.transform=
-        `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
+{transform:`translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px)) scaleY(0.05)`},
 
-    },120);
+{transform:`translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px)) scaleY(1)`}
 
-    setTimeout(blink,3000+Math.random()*5000);
+],
+
+{
+
+duration:180,
+
+easing:"ease-in-out"
+
+}
+
+);
+
+const nextBlink=3000+Math.random()*5000;
+
+setTimeout(blink,nextBlink);
 
 }
 
 setTimeout(blink,2500);
+
+/* ==========================================
+   BREATHING EFFECT
+========================================== */
+
+let breath=0;
+
+setInterval(()=>{
+
+breath+=0.05;
+
+eye.style.filter=
+`brightness(${1+Math.sin(breath)*0.04})`;
+
+},16);
+
+/* ==========================================
+   END
+========================================== */
+
+});
