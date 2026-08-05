@@ -1,33 +1,65 @@
-const eye=document.querySelector(".dragon-eye");
-const iris=document.querySelector(".iris");
+const iris = document.querySelector(".iris");
+
+let targetX = 0;
+let targetY = 0;
+
+let currentX = 0;
+let currentY = 0;
 
 document.addEventListener("mousemove",(e)=>{
 
-if(!eye)return;
+    const x=(e.clientX/window.innerWidth-0.5)*24;
+    const y=(e.clientY/window.innerHeight-0.5)*24;
 
-const rect=eye.getBoundingClientRect();
-
-const cx=rect.left+rect.width/2;
-const cy=rect.top+rect.height/2;
-
-const dx=(e.clientX-cx)/20;
-const dy=(e.clientY-cy)/20;
-
-iris.style.transform=
-`translate(${dx}px,${dy}px)`;
+    targetX=x;
+    targetY=y;
 
 });
 
-setInterval(()=>{
+document.addEventListener("touchmove",(e)=>{
 
-iris.style.transition=".15s";
-iris.style.transform+=" scaleY(.08)";
+    const t=e.touches[0];
 
-setTimeout(()=>{
+    const x=(t.clientX/window.innerWidth-0.5)*24;
+    const y=(t.clientY/window.innerHeight-0.5)*24;
 
-iris.style.transform=
-iris.style.transform.replace(" scaleY(.08)","");
+    targetX=x;
+    targetY=y;
 
-},150);
+},{passive:true});
 
-},6000);
+function animate(){
+
+    currentX+=(targetX-currentX)*0.12;
+    currentY+=(targetY-currentY)*0.12;
+
+    iris.style.transform=
+    `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
+
+    requestAnimationFrame(animate);
+
+}
+
+animate();
+
+/* Случайное моргание */
+
+function blink(){
+
+    iris.style.transition="transform .08s";
+
+    iris.style.transform+=
+    " scaleY(0.05)";
+
+    setTimeout(()=>{
+
+        iris.style.transform=
+        `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
+
+    },120);
+
+    setTimeout(blink,3000+Math.random()*5000);
+
+}
+
+setTimeout(blink,2500);
