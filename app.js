@@ -347,12 +347,20 @@ Math.floor(
 console.log("Дней вместе:", daysTogether);document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("loaded");
 });
-window.addEventListener("load",()=>{
+window.addEventListener("load", () => {
 
-setTimeout(()=>{
+    setTimeout(() => {
 
-document.getElementById("loader").classList.add("hide");
+        const loader = document.getElementById("loader");
+        const app = document.getElementById("app");
 
-},2200);
+        loader.style.opacity = "0";
+
+        setTimeout(() => {
+            loader.style.display = "none";
+            app.style.display = "block";
+        }, 800);
+
+    }, 2200);
 
 });
