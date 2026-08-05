@@ -1731,3 +1731,13 @@ transform:scale(1.05);
     border-radius:20px;
     display:block;
 }
+.galleryGrid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+    margin-bottom:40px;
+}
+
+#confirmDialog{
+    margin-top:40px;
+}
