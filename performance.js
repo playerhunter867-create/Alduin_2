@@ -1,89 +1,96 @@
-/* =======================================
-   ALDUIN PERFORMANCE ENGINE
-======================================= */
+"use strict";
 
-const perf = {
+/* ==========================================
+   ALDUIN PERFORMANCE
+========================================== */
 
-fps:0,
+document.addEventListener("DOMContentLoaded",()=>{
 
-last:performance.now(),
+const prefersReducedMotion=
+window.matchMedia("(prefers-reduced-motion: reduce)");
 
-frames:0
+let fps=144;
 
-};
+if(prefersReducedMotion.matches){
 
-function engine(now){
-
-perf.frames++;
-
-if(now-perf.last>=1000){
-
-perf.fps=perf.frames;
-
-perf.frames=0;
-
-perf.last=now;
-
-// Для проверки можешь посмотреть FPS в консоли
-console.log("FPS:",perf.fps);
+fps=60;
 
 }
 
-requestAnimationFrame(engine);
+let lastFrame=0;
+
+const interval=1000/fps;
+   /* ==========================================
+   RAF LIMITER
+========================================== */
+
+function loop(time){
+
+if(time-lastFrame>=interval){
+
+lastFrame=time;
 
 }
 
-requestAnimationFrame(engine);
+requestAnimationFrame(loop);
 
-/* =======================================
-   ПЛАВНАЯ ПРОКРУТКА
-======================================= */
+}
 
-document.documentElement.style.scrollBehavior="smooth";
+requestAnimationFrame(loop);
 
-/* =======================================
-   ОПТИМИЗАЦИЯ ТАБОВ
-======================================= */
+/* ==========================================
+   PAGE VISIBILITY
+========================================== */
 
 document.addEventListener("visibilitychange",()=>{
 
 if(document.hidden){
 
-console.log("Alduin paused");
+document.body.classList.add("paused");
 
 }else{
 
-console.log("Alduin resumed");
+document.body.classList.remove("paused");
+
+lastFrame=performance.now();
 
 }
 
 });
-// FPS Monitor
 
-let fps=0;
+/* ==========================================
+   RESIZE OPTIMIZATION
+========================================== */
 
-let frames=0;
+let resizeTimer;
 
-let last=performance.now();
+window.addEventListener("resize",()=>{
 
-function fpsLoop(now){
+clearTimeout(resizeTimer);
 
-frames++;
+resizeTimer=setTimeout(()=>{
 
-if(now-last>=1000){
+window.dispatchEvent(new Event("alduinResize"));
 
-fps=frames;
+},150);
 
-frames=0;
+});
 
-last=now;
+/* ==========================================
+   GPU ACCELERATION
+========================================== */
 
-// console.log("FPS:",fps);
+document.body.style.transform="translateZ(0)";
+document.body.style.willChange="transform";
 
-}
+/* ==========================================
+   READY
+========================================== */
 
-requestAnimationFrame(fpsLoop);
+console.log("⚡ Performance Engine Ready");
 
-}
+/* ==========================================
+   END
+========================================== */
 
-requestAnimationFrame(fpsLoop);
+});
