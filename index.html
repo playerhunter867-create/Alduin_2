@@ -5,57 +5,56 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>ALDUIN</title>
+
+<meta name="theme-color" content="#180026">
 
 <link rel="manifest" href="manifest.json">
 
 <link rel="stylesheet" href="style.css">
-
-<meta name="theme-color" content="#180026">
 
 </head>
 
 <body>
 
 <!-- ========================= -->
-<!-- ЗАГРУЗКА -->
+<!-- LOADER -->
 <!-- ========================= -->
 
 <div id="loader">
 
-    <div class="loader-bg"></div>
+<div class="loader-bg"></div>
 
-    <div class="dragon-eye">
+<div class="dragon-eye">
 
-        <div class="eye-glow"></div>
+<div class="eye-glow"></div>
 
-        <div class="eye-sclera">
+<div class="eye-sclera">
 
-            <div class="iris">
+<div class="iris">
 
-                <div class="pupil"></div>
+<div class="pupil"></div>
 
-                <div class="eye-highlight"></div>
+<div class="eye-highlight"></div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
-    <h1 class="loader-title">ALDUIN</h1>
+<h1 class="loader-title">ALDUIN</h1>
 
-    <p class="loader-sub">
-        Пробуждение дракона...
-    </p>
+<p class="loader-sub">
+Пробуждение дракона...
+</p>
 
 </div>
 
 <!-- ========================= -->
-<!-- ПРИЛОЖЕНИЕ -->
+<!-- APP -->
 <!-- ========================= -->
 
 <div id="app" style="display:none;">
@@ -70,57 +69,11 @@ content="width=device-width,initial-scale=1.0">
 
 <h1>ALDUIN</h1>
 
-<p>
-Dark Fantasy Journal
-</p>
+<p>Dark Fantasy Journal</p>
 
 </div>
 
 </div>
-
-<nav>
-
-<button
-class="navButton"
-data-page="home">
-
-🏰 Главная
-
-</button>
-
-<button
-class="navButton"
-data-page="diary">
-
-📖 Дневник
-
-</button>
-
-<button
-class="navButton"
-data-page="gallery">
-
-🖼 Галерея
-
-</button>
-
-<button
-class="navButton"
-data-page="profile">
-
-👑 Профиль
-
-</button>
-
-<button
-class="navButton"
-data-page="settings">
-
-⚙ Настройки
-
-</button>
-
-</nav>
 
 </header>
 
@@ -130,79 +83,39 @@ data-page="settings">
 <!-- HOME -->
 <!-- ========================= -->
 
-<section
-id="home"
-class="page active">
+<section id="home" class="page active">
 
 <div class="hero">
 
-<h2>
-
-Добро пожаловать
-
-</h2>
+<h2>Добро пожаловать</h2>
 
 <p>
-
 Личный мир Alduin.
-
 </p>
 
 </div>
 
 <div class="card">
 
-<h3>
+<h3>Статистика</h3>
 
-Статистика
-
-</h3>
-
-<p>
-
-Дней вместе:
-
-<span id="daysTogether">
-
-0
-
-</span>
-
+<p>Дней вместе:
+<span id="daysTogether">0</span>
 </p>
 
-<p>
-
-Записей:
-
-<span id="notesCount">
-
-0
-
-</span>
-
+<p>Записей:
+<span id="notesCount">0</span>
 </p>
 
-<p>
-
-Изображений:
-
-<span id="imagesCount">
-
-0
-
-</span>
-
+<p>Изображений:
+<span id="imagesCount">0</span>
 </p>
 
 </div>
 
 <div class="card">
 
-<h3>
-
-Последняя запись
-
-</h3>
+<h3>Последняя запись</h3>
 
 <p id="lastDiary">
 
@@ -213,162 +126,102 @@ class="page active">
 </div>
 
 </section>
-
 <!-- ========================= -->
-<!-- ДНЕВНИК -->
+<!-- DIARY -->
 <!-- ========================= -->
 
-<section
-id="diary"
-class="page">
+<section id="diary" class="page">
 
-<h2>
+<h2>Личный дневник</h2>
 
-Личный дневник
-
-</h2>
+<div class="card">
 
 <textarea
-
 id="diaryText"
+placeholder="Напиши свои мысли..."></textarea>
 
-placeholder="Напиши свои мысли..."
-
-></textarea>
-
-<button
-id="saveDiary">
-
-💾 Сохранить
-
+<button id="saveDiary">
+💾 Сохранить запись
 </button>
 
+</div>
+
+<div class="card">
+
+<h3>История</h3>
+
+<p id="lastDiary">
+Пока записей нет...
+</p>
+
+</div>
+
 </section>
+
 <!-- ========================= -->
-<!-- ГАЛЕРЕЯ -->
+<!-- GALLERY -->
 <!-- ========================= -->
 
-<section
-id="gallery"
-class="page">
+<section id="gallery" class="page">
 
-<h2>
-
-Галерея
-
-</h2>
+<h2>Галерея</h2>
 
 <div class="card">
 
 <input
-
 type="file"
-
 id="imageInput"
-
 accept="image/*"
-
-multiple
-
->
+multiple>
 
 <p>
-
-Можно загружать сколько угодно изображений.
-
-Они сохраняются автоматически.
-
+Можно загружать неограниченное количество изображений.
+Все они будут сохраняться автоматически.
 </p>
 
 </div>
 
 <div
-
 id="galleryGrid"
-
 class="galleryGrid">
 
 </div>
 
 </section>
-
 <!-- ========================= -->
-<!-- ПРОФИЛЬ -->
+<!-- PROFILE -->
 <!-- ========================= -->
 
-<section
+<section id="profile" class="page">
 
-id="profile"
-
-class="page">
-
-<h2>
-
-Профиль
-
-</h2>
+<h2>Профиль</h2>
 
 <div class="profileCard">
 
 <div class="profileImage">
 
 <img
-
 id="profilePhoto"
-
 src="assets/default-avatar.png"
-
-alt="Profile"
-
->
+alt="Profile">
 
 </div>
 
 <div class="profileInfo">
 
-<h3>
+<h3>ALDUIN</h3>
 
-ALDUIN
+<p><strong>Дата создания</strong></p>
+<p>2 августа 2026</p>
 
-</h3>
+<p><strong>Тип</strong></p>
+<p>Тульпа</p>
 
-<p>
-
-Дата создания
-
-</p>
-
-<p>
-
-2 августа 2026
-
-</p>
-
-<p>
-
-Тип
-
-</p>
-
-<p>
-
-Тульпа
-
-</p>
-
-<p>
-
-Описание
-
-</p>
+<p><strong>Описание</strong></p>
 
 <textarea
-
 id="profileDescription"
-
-placeholder="Напиши описание..."
-
-></textarea>
+placeholder="Напиши описание..."></textarea>
 
 </div>
 
@@ -377,261 +230,78 @@ placeholder="Напиши описание..."
 </section>
 
 <!-- ========================= -->
-<!-- НАСТРОЙКИ -->
+<!-- SETTINGS -->
 <!-- ========================= -->
 
-<section
+<section id="settings" class="page">
 
-id="settings"
-
-class="page">
-
-<h2>
-
-Настройки
-
-</h2>
+<h2>Настройки</h2>
 
 <div class="card">
 
-<button
-
-id="musicButton">
-
+<button id="musicButton">
 🎵 Музыка
-
 </button>
 
-<button
-
-id="exportButton">
-
+<button id="exportButton">
 📦 Экспорт данных
-
 </button>
 
-<button
-
-id="importButton">
-
+<button id="importButton">
 📥 Импорт данных
-
 </button>
 
-<button
-
-id="clearButton">
-
+<button id="clearButton">
 🗑 Очистить данные
-
 </button>
 
 </div>
 
 </section>
+<!DOCTYPE html>
+<html>
 
-<!-- ========================= -->
-<!-- ПРОСМОТР ФОТО -->
-<!-- ========================= -->
+<head>
+...
+</head>
 
-<div
+<body>
 
-id="imageViewer"
+<div id="loader">...</div>
 
-class="hidden">
+<div id="app">
 
-<span
+<header>...</header>
 
-id="closeViewer">
+<main>
 
-✕
+Главная
 
-</span>
+Дневник
 
-<img
+Галерея
 
-id="viewerImage"
+Профиль
 
-src=""
+Настройки
 
-alt="">
+<!-- ← здесь заканчивается Часть 3 -->
 
-</div>
-<!-- ========================= -->
-<!-- МУЗЫКА -->
-<!-- ========================= -->
-
-<audio
-
-id="bgMusic"
-
-loop>
-
-<source
-
-src="assets/music/theme.mp3"
-
-type="audio/mpeg">
-
-</audio>
-
-<!-- ========================= -->
-<!-- ВСПЛЫВАЮЩИЕ УВЕДОМЛЕНИЯ -->
-<!-- ========================= -->
-
-<div
-
-id="toast"
-
-class="toast">
-
-Готово
-
-</div>
-
-<!-- ========================= -->
-<!-- ФОН -->
-<!-- ========================= -->
-
-<div id="backgroundGlow"></div>
-
-<div id="backgroundStars"></div>
-
-<div id="backgroundFog"></div>
-
-<canvas id="particlesCanvas"></canvas>
-
-<!-- ========================= -->
-<!-- МОДАЛЬНОЕ ОКНО -->
-<!-- ========================= -->
-
-<div
-
-id="modal"
-
-class="hidden">
-
-<div
-
-class="modalContent">
-
-<h2>
-
-Подтверждение
-
-</h2>
-
-<p id="modalText">
-
-Вы уверены?
-
-</p>
-
-<div class="modalButtons">
-
-<button id="modalYes">
-
-Да
-
-</button>
-
-<button id="modalNo">
-
-Нет
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ========================= -->
-<!-- FOOTER -->
-<!-- ========================= -->
-
-<footer>
-
-<p>
-
-ALDUIN
-
-Dark Fantasy Journal
-
-</p>
-
-</footer>
-
-<script src="loader.js"></script>
-
-<script src="particles.js"></script>
-
-<script src="background.js"></script>
-
-<script src="fog.js"></script>
-
-<script src="eye.js"></script>
-
-<script src="animations.js"></script>
-
-<script src="storage.js"></script>
-
-<script src="gallery.js"></script>
-
-<script src="music.js"></script>
-
-<script src="app.js"></script>
-<!-- ========================= -->
-<!-- ЗАКРЫТИЕ MAIN -->
-<!-- ========================= -->
+<!-- ↓ Сразу здесь начинается Часть 4 -->
 
 </main>
 
-<nav class="bottomNav">
+<div id="imageViewer">...</div>
 
-<button class="active" onclick="showPage('home')">
-🏠
-<span>Главная</span>
-</button>
+<footer>...</footer>
 
-<button onclick="showPage('diary')">
-📖
-<span>Дневник</span>
-</button>
-
-<button onclick="showPage('gallery')">
-🖼️
-<span>Галерея</span>
-</button>
-
-<button onclick="showPage('profile')">
-👑
-<span>Профиль</span>
-</button>
-
-<button onclick="showPage('settings')">
-⚙️
-<span>Настройки</span>
-</button>
-
-</nav>
-
-<script src="loader.js"></script>
+<nav class="bottomNav">...</nav>
 
 </div>
 
 <script src="loader.js"></script>
 <script src="navigation.js"></script>
-<script src="animations.js"></script>
-<script src="background.js"></script>
-<script src="particles.js"></script>
-<script src="fog.js"></script>
-<script src="eye.js"></script>
-<script src="storage.js"></script>
-<script src="gallery.js"></script>
-<script src="music.js"></script>
-<script src="app.js"></script>
+...
 <script src="performance.js"></script>
 
 </body>
