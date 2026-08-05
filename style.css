@@ -1095,3 +1095,65 @@ transform:translate(-50%,-50%) scaleY(.05);
 transform:translate(-50%,-50%) scaleY(1);
 }
    }
+/* ==========================
+   ULTRA SMOOTH UI
+========================== */
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+.page{
+
+opacity:0;
+
+transform:translateY(18px) scale(.99);
+
+transition:
+opacity .35s ease,
+transform .35s ease;
+
+pointer-events:none;
+
+}
+
+.page.active{
+
+opacity:1;
+
+transform:translateY(0) scale(1);
+
+pointer-events:auto;
+
+}
+
+button{
+
+transition:
+transform .18s ease,
+box-shadow .18s ease,
+background .25s ease;
+
+}
+
+button:active{
+
+transform:scale(.97);
+
+}
+
+.card{
+
+transition:
+transform .25s ease,
+box-shadow .25s ease;
+
+}
+
+.card:hover{
+
+transform:translateY(-6px);
+
+}
