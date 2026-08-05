@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alduin</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+
+    <meta name="theme-color" content="#0b1020">
+</head>
+
+<body>
+
+<!-- Экран входа -->
+<div id="loginScreen">
+
+    <div class="loginBox">
+
+        <h1>Alduin</h1>
+
+        <p>Личный дневник</p>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Введите пароль">
+
+        <button id="loginBtn">
+            Войти
+        </button>
+
+        <p id="loginError"></p>
+
+    </div>
+
+</div>
+
+<!-- Основной сайт -->
+<div id="app" style="display:none;">
+
+<header>
+
+<h1>Alduin</h1>
+
+<nav>
+
+<button data-page="home">Главная</button>
+
+<button data-page="diary">Дневник</button>
+
+<button data-page="gallery">Галерея</button>
+
+<button data-page="profile">Профиль</button>
+
+<button data-page="settings">Настройки</button>
+
+</nav>
+
+</header>
+
+<main>
+
+<section id="home" class="page">
+
+<h2>Добро пожаловать</h2>
+
+<p>
+Добро пожаловать в личный сайт Alduin.
+</p>
+
+</section>
+
+<section id="diary" class="page" hidden>
+
+<h2>Дневник</h2>
+
+<textarea
+id="diaryText"
+placeholder="Напиши запись..."></textarea>
+
+<button id="saveDiary">
+Сохранить
+</button>
+
+<div id="diaryList"></div>
+
+</section>
+
+<section id="gallery" class="page" hidden>
+
+<h2>Галерея</h2>
+
+<input
+type="file"
+id="imageInput"
+accept="image/*">
+
+<div id="galleryGrid"></div>
+
+</section>
+
+<section id="profile" class="page" hidden>
+
+<h2>Профиль Alduin</h2>
+
+<p><b>Имя:</b> Alduin</p>
+
+<p><b>Дата создания:</b> 2 августа 2026</p>
+
+<p><b>Тип:</b> Тульпа</p>
+
+</section>
+
+<section id="settings" class="page" hidden>
+
+<h2>Настройки</h2>
+
+<button id="changePassword">
+Сменить пароль
+</button>
+
+<button id="exportData">
+Экспорт данных
+</button>
+
+<button id="importData">
+Импорт данных
+</button>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>

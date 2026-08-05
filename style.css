@@ -1,0 +1,150 @@
+/* ===== Общие настройки ===== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#0b1020;
+    color:white;
+    min-height:100vh;
+}
+
+/* ===== Экран входа ===== */
+
+#loginScreen{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    padding:20px;
+}
+
+.loginBox{
+    width:100%;
+    max-width:400px;
+    background:rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:30px;
+    backdrop-filter:blur(12px);
+    box-shadow:0 0 25px rgba(0,0,0,.4);
+}
+
+.loginBox h1{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.loginBox p{
+    text-align:center;
+    margin-bottom:20px;
+    color:#bbbbbb;
+}
+
+input,
+textarea{
+    width:100%;
+    border:none;
+    border-radius:12px;
+    padding:14px;
+    margin-top:10px;
+    margin-bottom:15px;
+    background:#1b2340;
+    color:white;
+    font-size:16px;
+}
+
+textarea{
+    min-height:180px;
+    resize:vertical;
+}
+
+button{
+    width:100%;
+    border:none;
+    border-radius:12px;
+    padding:14px;
+    cursor:pointer;
+    background:#4a7dff;
+    color:white;
+    font-size:16px;
+    transition:.25s;
+}
+
+button:hover{
+    transform:scale(1.03);
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+/* ===== Верхняя панель ===== */
+
+header{
+    background:#141d38;
+    padding:18px;
+    position:sticky;
+    top:0;
+}
+
+header h1{
+    text-align:center;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    overflow:auto;
+    margin-top:15px;
+}
+
+nav button{
+    min-width:120px;
+}
+
+/* ===== Страницы ===== */
+
+.page{
+    padding:20px;
+}
+
+#galleryGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+    gap:12px;
+    margin-top:20px;
+}
+
+#galleryGrid img{
+    width:100%;
+    border-radius:12px;
+}
+
+#diaryList{
+    margin-top:20px;
+}
+
+.diaryCard{
+    background:#182344;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+/* ===== Телефон ===== */
+
+@media(max-width:700px){
+
+header{
+padding:15px;
+}
+
+nav button{
+font-size:14px;
+}
+
+}
