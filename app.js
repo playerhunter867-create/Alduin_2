@@ -344,4 +344,6 @@ Math.floor(
 (today-created)/(1000*60*60*24)
 );
 
-console.log("Дней вместе:", daysTogether);
+console.log("Дней вместе:", daysTogether);document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("loaded");
+});
