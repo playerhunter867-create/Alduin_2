@@ -148,3 +148,18 @@ font-size:14px;
 }
 
 }
+body{
+    opacity:0;
+    transition:opacity .8s ease;
+}
+
+body.loaded{
+    opacity:1;
+}button{
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-3px) scale(1.03);
+    box-shadow:0 0 20px rgba(180,70,255,.8);
+}
