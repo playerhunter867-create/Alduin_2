@@ -1774,3 +1774,48 @@ transform:scale(1.05);
 .confirmButtons button{
     flex:1;
 }
+.loginScreen{
+    position:fixed;
+    inset:0;
+    background:#0d0717;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999999;
+}
+
+.loginBox{
+    width:min(90%,360px);
+    background:#1b1228;
+    border:2px solid #7b42ff;
+    border-radius:22px;
+    padding:28px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(130,80,255,.35);
+}
+
+.loginBox h1{
+    margin-bottom:10px;
+}
+
+.loginBox input{
+    width:100%;
+    padding:14px;
+    margin-top:18px;
+    border:none;
+    border-radius:14px;
+    background:#2a1b3f;
+    color:white;
+    font-size:16px;
+}
+
+.loginBox button{
+    width:100%;
+    margin-top:18px;
+}
+
+.loginError{
+    color:#ff5b5b;
+    margin-top:12px;
+    min-height:20px;
+}
