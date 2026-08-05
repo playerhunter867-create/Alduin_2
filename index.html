@@ -22,7 +22,25 @@ href="style.css">
 </head>
 
 <body>
+<div id="loginScreen" class="loginScreen">
+    <div class="loginBox">
 
+        <h1>🐉 ALDUIN</h1>
+        <p>Введите пароль</p>
+
+        <input
+            id="passwordInput"
+            type="password"
+            placeholder="Пароль">
+
+        <button id="loginButton">
+            Войти
+        </button>
+
+        <p id="loginError" class="loginError"></p>
+
+    </div>
+</div>
 <!-- ========================= -->
 <!-- LOADER -->
 <!-- ========================= -->
@@ -498,6 +516,8 @@ class="hidden">
 <script src="animations.js"></script>
 
 <script src="performance.js"></script>
+
+<script src="login.js"></script>
 
 </body>
 
