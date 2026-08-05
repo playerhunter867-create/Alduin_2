@@ -1,25 +1,56 @@
-/* =======================================
-   ALDUIN APP ENGINE
-======================================= */
+/* ==========================================
+   ALDUIN APP
+========================================== */
+
+"use strict";
+
+document.addEventListener("DOMContentLoaded", () => {
+
+const app = document.getElementById("app");
+const loader = document.getElementById("loader");
 
 const pages = document.querySelectorAll(".page");
-const buttons = document.querySelectorAll(".navButton");
+const navButtons = document.querySelectorAll(".navButton");
 
-function showPage(page){
+/* ==========================================
+   LOADER
+========================================== */
 
-pages.forEach(p=>{
+setTimeout(() => {
 
-p.classList.remove("active");
+if (loader) {
+
+loader.classList.add("hide");
+
+setTimeout(() => {
+
+loader.style.display = "none";
+
+}, 700);
+
+}
+
+if (app) {
+
+app.style.display = "block";
+
+}
+
+}, 1500);
+
+/* ==========================================
+   PAGE SWITCH
+========================================== */
+
+function showPage(pageId){
+
+pages.forEach(page=>{
+
+page.classList.remove("active");
 
 });
 
-buttons.forEach(b=>{
-
-b.classList.remove("active");
-
-});
-
-const current=document.getElementById(page);
+const current=document.getElementById(pageId);
 
 if(current){
 
@@ -27,243 +58,186 @@ current.classList.add("active");
 
 }
 
-const btn=document.querySelector(`[data-page="${page}"]`);
+navButtons.forEach(btn=>{
 
-if(btn){
+btn.classList.remove("active");
+
+if(btn.dataset.page===pageId){
 
 btn.classList.add("active");
 
 }
 
-window.scrollTo({
+});
 
-top:0,
+localStorage.setItem("currentPage",pageId);
 
-behavior:"smooth"
+}
+
+window.showPage=showPage;
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
+navButtons.forEach(button=>{
+
+button.addEventListener("click",()=>{
+
+showPage(button.dataset.page);
+
+});
+
+});
+
+const lastPage=localStorage.getItem("currentPage")||"home";
+
+showPage(lastPage);
+   /* ==========================================
+   DIARY
+========================================== */
+
+const diaryText = document.getElementById("diaryText");
+
+const lastDiaryText = document.getElementById("lastDiaryText");
+
+const homeLastDiary = document.getElementById("homeLastDiary");
+
+const saveDiary = document.getElementById("saveDiary");
+
+const savedDiary = localStorage.getItem("diary") || "";
+
+if (diaryText) {
+
+diaryText.value = savedDiary;
+
+}
+
+if (lastDiaryText) {
+
+lastDiaryText.textContent = savedDiary || "Записей пока нет...";
+
+}
+
+if (homeLastDiary) {
+
+homeLastDiary.textContent = savedDiary || "Пока нет записей...";
+
+}
+
+function saveDiaryData() {
+
+const text = diaryText.value.trim();
+
+localStorage.setItem("diary", text);
+
+if (lastDiaryText) {
+
+lastDiaryText.textContent = text || "Записей пока нет...";
+
+}
+
+if (homeLastDiary) {
+
+homeLastDiary.textContent = text || "Пока нет записей...";
+
+}
+
+showToast("Дневник сохранён");
+
+}
+
+if (saveDiary) {
+
+saveDiary.addEventListener("click", saveDiaryData);
+
+}
+
+if (diaryText) {
+
+diaryText.addEventListener("input", () => {
+
+localStorage.setItem("diary", diaryText.value);
 
 });
 
 }
 
-/* =======================================
-   ЗАГРУЗКА
-======================================= */
+/* ==========================================
+   PROFILE
+========================================== */
 
-window.addEventListener("load",()=>{
+const profileDescription = document.getElementById("profileDescription");
 
-const loader=document.getElementById("loader");
+const saveProfile = document.getElementById("saveProfile");
 
-const app=document.getElementById("app");
+if (profileDescription) {
 
-setTimeout(()=>{
+profileDescription.value =
 
-loader.classList.add("hide");
-
-setTimeout(()=>{
-
-loader.style.display="none";
-
-app.style.display="block";
-
-},900);
-
-},1800);
-
-});
-
-/* =======================================
-   ДНЕВНИК
-======================================= */
-
-const diary=document.getElementById("diaryText");
-
-if(localStorage.getItem("alduinDiary")){
-
-diary.value=localStorage.getItem("alduinDiary");
+localStorage.getItem("profileDescription") || "";
 
 }
 
-diary.addEventListener("input",()=>{
+if (saveProfile) {
+
+saveProfile.addEventListener("click", () => {
 
 localStorage.setItem(
 
-"alduinDiary",
+"profileDescription",
 
-diary.value
-
-);
-
-updateDiary();
-
-});
-
-/* =======================================
-   СЧЕТЧИК ДНЕЙ
-======================================= */
-
-const created=new Date("2026-08-02");
-
-const today=new Date();
-
-const days=Math.floor(
-
-(today-created)/(1000*60*60*24)
+profileDescription.value
 
 );
 
-const daysSpan=document.getElementById("daysTogether");
-
-if(daysSpan){
-
-daysSpan.textContent=Math.max(days,0);
-
-}
-/* =======================================
-   ГАЛЕРЕЯ ALDUIN
-======================================= */
-
-const imageInput=document.getElementById("imageInput");
-const gallery=document.getElementById("galleryGrid");
-const viewer=document.getElementById("imageViewer");
-const viewerImage=document.getElementById("viewerImage");
-const closeViewer=document.getElementById("closeViewer");
-
-let images=JSON.parse(
-localStorage.getItem("alduinGallery")||"[]"
-);
-
-function saveGallery(){
-
-localStorage.setItem(
-
-"alduinGallery",
-
-JSON.stringify(images)
-
-);
-
-const counter=document.getElementById("imagesCount");
-
-if(counter){
-
-counter.textContent=images.length;
-
-}
-
-}
-
-function renderGallery(){
-
-gallery.innerHTML="";
-
-images.forEach((src,index)=>{
-
-const img=document.createElement("img");
-
-img.src=src;
-
-img.loading="lazy";
-
-img.onclick=()=>{
-
-viewer.classList.add("show");
-
-viewerImage.src=src;
-
-};
-
-img.oncontextmenu=(e)=>{
-
-e.preventDefault();
-
-if(confirm("Удалить фотографию?")){
-
-images.splice(index,1);
-
-saveGallery();
-
-renderGallery();
-
-}
-
-};
-
-gallery.appendChild(img);
+showToast("Профиль сохранён");
 
 });
 
 }
+   /* ==========================================
+   TOAST
+========================================== */
 
-if(imageInput){
+const toast = document.getElementById("toast");
 
-imageInput.addEventListener("change",(e)=>{
+function showToast(text){
 
-const files=[...e.target.files];
+if(!toast) return;
 
-files.forEach(file=>{
+toast.textContent=text;
 
-const reader=new FileReader();
+toast.classList.add("show");
 
-reader.onload=()=>{
+clearTimeout(window.toastTimer);
 
-images.push(reader.result);
+window.toastTimer=setTimeout(()=>{
 
-saveGallery();
+toast.classList.remove("show");
 
-renderGallery();
-
-};
-
-reader.readAsDataURL(file);
-
-});
-
-});
+},2200);
 
 }
 
-if(closeViewer){
+/* ==========================================
+   MUSIC
+========================================== */
 
-closeViewer.onclick=()=>{
+const bgMusic=document.getElementById("bgMusic");
 
-viewer.classList.remove("show");
-
-};
-
-}
-
-if(viewer){
-
-viewer.onclick=(e)=>{
-
-if(e.target===viewer){
-
-viewer.classList.remove("show");
-
-}
-
-};
-
-}
-
-renderGallery();
-/* =======================================
-   МУЗЫКА
-======================================= */
-
-const music=document.getElementById("bgMusic");
 const musicButton=document.getElementById("musicButton");
 
 let musicEnabled=
 localStorage.getItem("musicEnabled")==="true";
 
-if(music){
+if(bgMusic){
 
-music.volume=0.35;
+bgMusic.volume=0.35;
 
 if(musicEnabled){
 
-music.play().catch(()=>{});
+bgMusic.play().catch(()=>{});
 
 }
 
@@ -271,183 +245,172 @@ music.play().catch(()=>{});
 
 if(musicButton){
 
-updateMusicButton();
-
-musicButton.onclick=()=>{
+musicButton.addEventListener("click",()=>{
 
 musicEnabled=!musicEnabled;
 
-localStorage.setItem(
-
-"musicEnabled",
-
-musicEnabled
-
-);
+localStorage.setItem("musicEnabled",musicEnabled);
 
 if(musicEnabled){
 
-music.play().catch(()=>{});
+bgMusic.play().catch(()=>{});
+
+showToast("Музыка включена");
 
 }else{
 
-music.pause();
+bgMusic.pause();
+
+showToast("Музыка выключена");
 
 }
 
-updateMusicButton();
-
-};
+});
 
 }
 
-function updateMusicButton(){
+/* ==========================================
+   PROFILE PHOTO
+========================================== */
 
-if(!musicButton)return;
+const profileImageInput=
+document.getElementById("profileImageInput");
 
-musicButton.textContent=
+const profilePhoto=
+document.getElementById("profilePhoto");
 
-musicEnabled?
+const savedPhoto=
+localStorage.getItem("profilePhoto");
 
-"🎵 Музыка: ВКЛ"
+if(savedPhoto && profilePhoto){
 
-:
-
-"🔇 Музыка: ВЫКЛ";
-
-}
-
-/* =======================================
-   TOAST
-======================================= */
-
-const toast=document.getElementById("toast");
-
-function showToast(text){
-
-if(!toast)return;
-
-toast.textContent=text;
-
-toast.classList.add("show");
-
-setTimeout(()=>{
-
-toast.classList.remove("show");
-
-},2500);
+profilePhoto.src=savedPhoto;
 
 }
 
-/* =======================================
-   СОХРАНЕНИЕ ДНЕВНИКА
-======================================= */
+if(profileImageInput){
 
-const saveDiary=document.getElementById("saveDiary");
+profileImageInput.addEventListener("change",(e)=>{
 
-if(saveDiary){
+const file=e.target.files[0];
 
-saveDiary.onclick=()=>{
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(){
+
+profilePhoto.src=reader.result;
 
 localStorage.setItem(
 
-"alduinDiary",
+"profilePhoto",
 
-diary.value
+reader.result
 
 );
 
-showToast("Дневник сохранён");
+showToast("Фото сохранено");
 
 };
 
-}
+reader.readAsDataURL(file);
 
-/* =======================================
-   ПОСЛЕДНЯЯ ЗАПИСЬ
-======================================= */
-
-function updateDiary(){
-
-const last=document.getElementById("lastDiary");
-
-const counter=document.getElementById("notesCount");
-
-if(last){
-
-const text=diary.value.trim();
-
-last.textContent=
-
-text.length?
-
-text.substring(0,120):
-
-"Пока нет записей...";
+});
 
 }
+   /* ==========================================
+   STATISTICS
+========================================== */
 
-if(counter){
+const daysTogether =
+document.getElementById("daysTogether");
 
-counter.textContent=
+const notesCount =
+document.getElementById("notesCount");
 
-diary.value.trim().length?1:0;
+const imagesCount =
+document.getElementById("imagesCount");
 
-}
+function updateStats(){
 
-}
+const created =
+new Date("2026-08-02");
 
-updateDiary();
+const now =
+new Date();
 
-/* =======================================
-   ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ
-======================================= */
-
-buttons.forEach(btn=>{
-
-btn.addEventListener("click",()=>{
-
-showPage(
-
-btn.dataset.page
-
+const days =
+Math.max(
+1,
+Math.floor(
+(now-created)/86400000
+)+1
 );
 
-});
+if(daysTogether){
 
-});
-/* =======================================
-   ЭКСПОРТ И ИМПОРТ
-======================================= */
+daysTogether.textContent=days;
 
-const exportButton=document.getElementById("exportButton");
-const importButton=document.getElementById("importButton");
+}
+
+if(notesCount){
+
+const diary =
+localStorage.getItem("diary")||"";
+
+notesCount.textContent =
+diary.trim()===""
+?0
+:1;
+
+}
+
+if(imagesCount){
+
+let total=0;
+
+for(let i=0;i<localStorage.length;i++){
+
+const key=
+localStorage.key(i);
+
+if(key.startsWith("gallery_")){
+
+total++;
+
+}
+
+}
+
+imagesCount.textContent=total;
+
+}
+
+}
+
+updateStats();
+
+/* ==========================================
+   EXPORT
+========================================== */
+
+const exportButton =
+document.getElementById("exportButton");
 
 if(exportButton){
 
-exportButton.onclick=()=>{
+exportButton.addEventListener("click",()=>{
 
-const data={
+const data={};
 
-version:"ALDUIN V3",
+for(let i=0;i<localStorage.length;i++){
 
-date:new Date().toISOString(),
+const key=localStorage.key(i);
 
-diary:localStorage.getItem("alduinDiary")||"",
+data[key]=localStorage.getItem(key);
 
-gallery:images,
-
-profile:{
-
-description:
-
-document.getElementById("profileDescription")?.value||""
-
-},
-
-music:musicEnabled
-
-};
+}
 
 const blob=new Blob(
 
@@ -457,27 +420,51 @@ const blob=new Blob(
 
 );
 
-const url=URL.createObjectURL(blob);
-
 const a=document.createElement("a");
 
-a.href=url;
+a.href=URL.createObjectURL(blob);
 
-a.download="Alduin_Backup.json";
+a.download="alduin_backup.json";
 
 a.click();
 
-URL.revokeObjectURL(url);
+showToast("Экспорт завершён");
 
-showToast("Резервная копия создана");
-
-};
+});
 
 }
 
-if(importButton){
+/* ==========================================
+   CLEAR
+========================================== */
 
-importButton.onclick=()=>{
+const clearButton=
+document.getElementById("clearButton");
+
+if(clearButton){
+
+clearButton.addEventListener("click",()=>{
+
+if(!confirm("Удалить все данные?")){
+
+return;
+
+}
+
+localStorage.clear();
+
+location.reload();
+
+});
+
+    /* ==========================================
+   IMPORT
+========================================== */
+
+const importButton =
+document.getElementById("importButton");
+
+if(importButton){
 
 const input=document.createElement("input");
 
@@ -485,59 +472,41 @@ input.type="file";
 
 input.accept=".json";
 
-input.onchange=(e)=>{
+importButton.addEventListener("click",()=>{
+
+input.click();
+
+});
+
+input.addEventListener("change",(e)=>{
 
 const file=e.target.files[0];
 
-if(!file)return;
+if(!file) return;
 
 const reader=new FileReader();
 
-reader.onload=()=>{
+reader.onload=function(){
 
 try{
 
 const data=JSON.parse(reader.result);
 
-if(data.diary){
+localStorage.clear();
 
-diary.value=data.diary;
+Object.keys(data).forEach(key=>{
 
-localStorage.setItem(
+localStorage.setItem(key,data[key]);
 
-"alduinDiary",
+});
 
-data.diary
+showToast("Импорт завершён");
 
-);
+setTimeout(()=>{
 
-}
+location.reload();
 
-if(Array.isArray(data.gallery)){
-
-images=data.gallery;
-
-saveGallery();
-
-renderGallery();
-
-}
-
-if(data.profile){
-
-const desc=document.getElementById("profileDescription");
-
-if(desc){
-
-desc.value=data.profile.description||"";
-
-}
-
-}
-
-showToast("Данные восстановлены");
-
-updateDiary();
+},1000);
 
 }catch{
 
@@ -549,80 +518,74 @@ showToast("Ошибка импорта");
 
 reader.readAsText(file);
 
-};
-
-input.click();
-
-};
+});
 
 }
 
-/* =======================================
-   ПРОФИЛЬ
-======================================= */
+/* ==========================================
+   IMAGE VIEWER
+========================================== */
 
-const profileDescription=document.getElementById("profileDescription");
+const viewer =
+document.getElementById("imageViewer");
 
-if(profileDescription){
+const viewerImage =
+document.getElementById("viewerImage");
 
-profileDescription.value=
+const closeViewer =
+document.getElementById("closeViewer");
 
-localStorage.getItem("profileDescription")||"";
+document.addEventListener("click",(e)=>{
 
-profileDescription.oninput=()=>{
+if(e.target.tagName==="IMG" &&
+e.target.closest(".galleryGrid")){
 
-localStorage.setItem(
+viewerImage.src=e.target.src;
 
-"profileDescription",
-
-profileDescription.value
-
-);
-
-};
+viewer.classList.add("show");
 
 }
-
-/* =======================================
-   КРАСИВОЕ ПОЯВЛЕНИЕ КАРТОЧЕК
-======================================= */
-
-function animateCards(){
-
-const cards=document.querySelectorAll(".card");
-
-cards.forEach((card,index)=>{
-
-card.animate([
-
-{
-
-opacity:0,
-
-transform:"translateY(30px)"
-
-},
-
-{
-
-opacity:1,
-
-transform:"translateY(0px)"
-
-}
-
-],{
-
-duration:500,
-
-delay:index*120,
-
-fill:"forwards"
 
 });
+
+if(closeViewer){
+
+closeViewer.addEventListener("click",()=>{
+
+viewer.classList.remove("show");
 
 });
 
 }
 
-animateCards();
+if(viewer){
+
+viewer.addEventListener("click",(e)=>{
+
+if(e.target===viewer){
+
+viewer.classList.remove("show");
+
+}
+
+});
+
+}
+
+/* ==========================================
+   PERFORMANCE
+========================================== */
+
+document.body.style.visibility="visible";
+
+window.addEventListener("pageshow",()=>{
+
+updateStats();
+
+});
+
+/* ==========================================
+   END
+========================================== */
+
+});                                         }
