@@ -484,3 +484,93 @@ transform:scale(1);
 }
 
 }
+/* ===== Gothic Header ===== */
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:999;
+    padding:20px;
+    background:rgba(8,8,15,.88);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(170,100,255,.3);
+    box-shadow:0 0 40px rgba(130,50,255,.25);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+}
+
+.logo h1{
+    margin:0;
+    color:white;
+    font-size:42px;
+    letter-spacing:6px;
+    animation:glow 3s infinite alternate;
+}
+
+.dragon{
+    font-size:46px;
+    animation:floatDragon 5s ease-in-out infinite;
+    filter:drop-shadow(0 0 12px #b266ff);
+}
+
+nav{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-top:25px;
+}
+
+nav button{
+    padding:16px 26px;
+    border:none;
+    border-radius:18px;
+    color:white;
+    cursor:pointer;
+    background:linear-gradient(145deg,#26113d,#50208a);
+    box-shadow:
+        0 0 18px rgba(170,90,255,.5),
+        inset 0 0 15px rgba(255,255,255,.08);
+    transition:.35s;
+}
+
+nav button:hover{
+    transform:translateY(-5px) scale(1.05);
+    box-shadow:0 0 35px #a855ff;
+}
+
+@keyframes glow{
+
+0%{
+text-shadow:0 0 8px #8f3cff;
+}
+
+100%{
+text-shadow:
+0 0 10px #b266ff,
+0 0 25px #b266ff,
+0 0 50px #b266ff;
+}
+
+}
+
+@keyframes floatDragon{
+
+0%{
+transform:translateY(0px) rotate(-3deg);
+}
+
+50%{
+transform:translateY(-8px) rotate(3deg);
+}
+
+100%{
+transform:translateY(0px) rotate(-3deg);
+}
+
+}
