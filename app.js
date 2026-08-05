@@ -358,3 +358,22 @@ window.addEventListener("load", () => {
     }, 1800);
 
 });
+setInterval(()=>{
+
+const p=document.createElement("div");
+
+p.className="particle";
+
+p.style.left=Math.random()*100+"vw";
+
+p.style.animationDuration=(5+Math.random()*6)+"s";
+
+document.getElementById("particles").appendChild(p);
+
+setTimeout(()=>{
+
+p.remove();
+
+},11000);
+
+},250);
