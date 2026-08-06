@@ -1819,3 +1819,44 @@ transform:scale(1.05);
     margin-top:12px;
     min-height:20px;
 }
+html{
+    scroll-behavior:smooth;
+}
+
+*{
+    -webkit-tap-highlight-color:transparent;
+    box-sizing:border-box;
+}
+
+body{
+    overflow-x:hidden;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    -webkit-font-smoothing:antialiased;
+}
+
+.page{
+    will-change:transform,opacity;
+}
+
+.card,
+button,
+input,
+textarea,
+.galleryImage,
+.profileCard{
+    transition:
+        transform .18s cubic-bezier(.2,.8,.2,1),
+        opacity .18s cubic-bezier(.2,.8,.2,1),
+        background-color .18s,
+        box-shadow .18s;
+    will-change:transform;
+}
+
+button:active{
+    transform:scale(.96);
+}
+
+.galleryImage:hover{
+    transform:scale(1.03);
+}
