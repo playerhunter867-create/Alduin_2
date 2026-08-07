@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+<defs><radialGradient id="b"><stop stop-color="#9b3cff" stop-opacity=".55"/><stop offset="1" stop-color="#09000f"/></radialGradient>
+<radialGradient id="e"><stop stop-color="#ffe98a"/><stop offset=".3" stop-color="#ff9b00"/><stop offset=".7" stop-color="#5a1200"/><stop offset="1" stop-color="#160000"/></radialGradient>
+<filter id="g"><feGaussianBlur stdDeviation="12"/></filter></defs>
+<rect width="800" height="800" rx="90" fill="#09000f"/><circle cx="400" cy="400" r="300" fill="url(#b)"/>
+<circle cx="400" cy="400" r="190" fill="url(#e)" filter="url(#g)" opacity=".7"/><circle cx="400" cy="400" r="175" fill="url(#e)"/>
+<ellipse cx="400" cy="400" rx="25" ry="135" fill="#160000"/><circle cx="350" cy="335" r="22" fill="#fff" opacity=".8"/>
+<text x="400" y="665" text-anchor="middle" fill="#e6c0ff" font-family="Georgia,serif" font-size="58" letter-spacing="9">ALDUIN</text>
+</svg>

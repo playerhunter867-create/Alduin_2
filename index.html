@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09000f">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="ALDUIN — личный dark fantasy journal">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/alduin.svg">
+<link rel="stylesheet" href="style.css">
+<title>ALDUIN • Dark Fantasy Journal</title>
+</head>
+<body>
+
+<div id="boot" class="boot">
+  <div class="bootEye"><span></span></div>
+  <div class="bootTitle">ALDUIN</div>
+  <div class="bootSub">Пробуждение дракона</div>
+  <div class="bootBar"><i></i></div>
+</div>
+
+<section id="loginScreen" class="loginScreen" aria-label="Вход">
+  <div class="loginBackdrop"></div>
+  <div class="loginCard">
+    <div class="loginEye"><span></span></div>
+    <div class="loginKicker">PRIVATE REALM</div>
+    <h1>ALDUIN</h1>
+    <p>Личный Dark Fantasy Journal</p>
+    <label class="inputWrap">
+      <span>🔐</span>
+      <input id="passwordInput" type="password" autocomplete="current-password" placeholder="Пароль">
+      <button id="togglePassword" type="button" aria-label="Показать пароль">◉</button>
+    </label>
+    <button id="loginButton" class="primary big">Войти в мир</button>
+    <label class="remember"><input id="rememberLogin" type="checkbox" checked><span>Оставаться в системе</span></label>
+    <div id="loginError" class="loginError" role="alert"></div>
+    <small>Локальная версия • данные хранятся на этом устройстве</small>
+  </div>
+</section>
+
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="sideBrand">
+      <div class="miniEye"><span></span></div>
+      <div><strong>ALDUIN</strong><small>Dark Fantasy</small></div>
+    </div>
+    <div class="sideStatus"><i></i><span>Realm online</span></div>
+    <nav class="sideNav">
+      <button class="navItem active" data-page="home"><span>⌂</span><b>Главная</b></button>
+      <button class="navItem" data-page="diary"><span>✦</span><b>Дневник</b></button>
+      <button class="navItem" data-page="gallery"><span>▧</span><b>Галерея</b></button>
+      <button class="navItem" data-page="profile"><span>♛</span><b>Профиль</b></button>
+      <button class="navItem" data-page="settings"><span>⚙</span><b>Настройки</b></button>
+    </nav>
+    <div class="sideQuote">
+      <span>“</span>
+      <p>Твой личный уголок мира Alduin.</p>
+    </div>
+    <button id="logoutButton" class="sideLogout">⇥ Выйти</button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="crumb">PRIVATE REALM / <span id="crumbName">HOME</span></div>
+        <h1 id="pageTitle">Добро пожаловать</h1>
+      </div>
+      <div class="topActions">
+        <button id="quickMusic" class="iconButton" title="Музыка">♫</button>
+        <button id="mobileMenu" class="iconButton mobileOnly" title="Меню">☰</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <section id="home" class="page active">
+        <div class="heroPanel">
+          <div class="heroText">
+            <span class="eyebrow">ALDUIN JOURNAL • 2026</span>
+            <h2>Твой мир.<br><em>Твоя история.</em></h2>
+            <p>Сохраняй мысли, моменты, изображения и всё, что связано с твоим личным миром Alduin.</p>
+            <div class="heroButtons">
+              <button class="primary" data-go="diary">✦ Новая запись</button>
+              <button class="ghost" data-go="gallery">▧ Открыть галерею</button>
+            </div>
+          </div>
+          <div class="heroOrb"><div class="orbCore"></div><div class="orbRing r1"></div><div class="orbRing r2"></div><span>🐉</span></div>
+        </div>
+
+        <div class="statsGrid">
+          <article class="statCard"><span>ДНЕЙ ВМЕСТЕ</span><strong id="daysTogether">0</strong><i>since 02.08.2026</i></article>
+          <article class="statCard"><span>ЗАПИСЕЙ</span><strong id="notesCount">0</strong><i>личный дневник</i></article>
+          <article class="statCard"><span>ИЗОБРАЖЕНИЙ</span><strong id="imagesCount">0</strong><i>твоя коллекция</i></article>
+          <article class="statCard"><span>СОХРАНЕНИЕ</span><strong>100%</strong><i>локально</i></article>
+        </div>
+
+        <div class="dashboardGrid">
+          <article class="panel recentPanel">
+            <div class="panelHead"><div><span class="eyebrow">DIARY</span><h3>Последняя запись</h3></div><button class="textButton" data-go="diary">Открыть →</button></div>
+            <div id="homeLastDiary" class="recentText emptyText">Пока нет записей. Создай первую.</div>
+          </article>
+          <article class="panel realmPanel">
+            <div class="panelHead"><div><span class="eyebrow">ALDUIN</span><h3>Состояние мира</h3></div><span class="liveBadge"><i></i> LIVE</span></div>
+            <div class="realmLine"><span>Хранилище</span><b>Local</b></div>
+            <div class="realmLine"><span>Интерфейс</span><b>Ultra</b></div>
+            <div class="realmLine"><span>Анимации</span><b>Adaptive</b></div>
+            <div class="realmLine"><span>Display</span><b id="refreshRate">— Hz</b></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="diary" class="page">
+        <div class="sectionIntro"><span class="eyebrow">MEMORIES / THOUGHTS</span><h2>Дневник</h2><p>Записывай мысли. Черновик сохраняется автоматически.</p></div>
+        <div class="diaryLayout">
+          <article class="panel editorPanel">
+            <div class="editorTop"><span id="draftState" class="saveState">● Черновик сохранён</span><span id="wordCount">0 слов</span></div>
+            <input id="diaryTitle" class="titleInput" placeholder="Название записи..." maxlength="100">
+            <textarea id="diaryText" placeholder="Напиши здесь всё, что хочется сохранить..."></textarea>
+            <div class="editorBottom"><span class="muted">Автосохранение включено</span><button id="newDiary" class="ghost">Новая запись</button><button id="saveDiary" class="primary">💾 Сохранить</button></div>
+          </article>
+          <aside class="panel diaryListPanel">
+            <div class="panelHead"><div><span class="eyebrow">ARCHIVE</span><h3>Архив</h3></div><span id="diaryCountBadge" class="countBadge">0</span></div>
+            <div id="diaryList" class="diaryList"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="gallery" class="page">
+        <div class="sectionIntro"><span class="eyebrow">VISUAL ARCHIVE</span><h2>Галерея</h2><p>Твоя коллекция изображений с полноэкранным просмотром.</p></div>
+        <div class="galleryToolbar panel">
+          <label class="uploadButton"><input id="imageInput" type="file" accept="image/*" multiple>＋ Добавить изображения</label>
+          <div class="gallerySearch"><span>⌕</span><input id="gallerySearch" placeholder="Поиск по имени..."></div>
+          <select id="gallerySort"><option value="new">Сначала новые</option><option value="old">Сначала старые</option><option value="name">По имени</option></select>
+        </div>
+        <div id="galleryGrid" class="galleryGrid"></div>
+        <div id="galleryEmpty" class="emptyLarge hidden"><div>▧</div><h3>Галерея пуста</h3><p>Добавь первое изображение — оно сохранится локально.</p></div>
+      </section>
+
+      <section id="profile" class="page">
+        <div class="sectionIntro"><span class="eyebrow">IDENTITY</span><h2>Профиль Alduin</h2><p>Настрой описание и изображение профиля.</p></div>
+        <div class="profileLayout">
+          <article class="panel profileVisual">
+            <div class="portraitFrame"><img id="profilePhoto" src="assets/alduin.svg" alt="Alduin"></div>
+            <label class="uploadButton full"><input id="profileImageInput" type="file" accept="image/*">📷 Изменить изображение</label>
+          </article>
+          <article class="panel profileInfo">
+            <div class="profileName"><span class="liveDot"></span><h3>ALDUIN</h3></div>
+            <div class="infoGrid">
+              <div><span>Создание</span><b>02.08.2026</b></div><div><span>Тип</span><b>Тульпа</b></div>
+              <div><span>Статус</span><b>Личный мир</b></div><div><span>Тема</span><b>Dark Purple</b></div>
+            </div>
+            <label class="fieldLabel">Описание</label>
+            <textarea id="profileDescription" class="profileTextarea" placeholder="Расскажи о своей тульпе..."></textarea>
+            <button id="saveProfile" class="primary">💾 Сохранить профиль</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="settings" class="page">
+        <div class="sectionIntro"><span class="eyebrow">SYSTEM</span><h2>Настройки</h2><p>Управление интерфейсом, данными и производительностью.</p></div>
+        <div class="settingsGrid">
+          <article class="panel settingPanel">
+            <div class="settingIcon">♫</div><div><h3>Музыка</h3><p>Фоновая музыка запускается только после твоего действия.</p></div>
+            <button id="musicButton" class="toggleButton">ВЫКЛ</button>
+          </article>
+          <article class="panel settingPanel">
+            <div class="settingIcon">✧</div><div><h3>Плавность</h3><p>Анимации используют requestAnimationFrame и не задают искусственный лимит FPS.</p></div>
+            <span class="goodBadge">ADAPTIVE</span>
+          </article>
+          <article class="panel settingPanel"><div class="settingIcon">↕</div><div><h3>Частота экрана</h3><p>Фактическая частота определяется браузером и дисплеем.</p></div><strong id="settingsRefresh">— Hz</strong></article>
+          <article class="panel settingPanel"><div class="settingIcon">◈</div><div><h3>Эффекты</h3><p>Частицы автоматически уменьшаются на слабых устройствах.</p></div><button id="effectsButton" class="toggleButton on">ВКЛ</button></article>
+        </div>
+        <div class="settingsActions panel">
+          <h3>Данные</h3>
+          <div class="actionRow"><button id="exportButton" class="secondary">📦 Экспорт резервной копии</button><button id="importButton" class="secondary">📥 Импорт</button><button id="clearButton" class="danger">🗑 Очистить данные</button></div>
+          <p class="warningText">⚠ Пароль этого статического сайта не является настоящей серверной авторизацией. Для реальной приватности понадобится сервер.</p>
+        </div>
+      </section>
+    </div>
+
+    <footer>🐉 ALDUIN • Dark Fantasy Journal <span>•</span> Built for your private realm</footer>
+  </main>
+
+  <nav class="bottomNav">
+    <button class="navItem active" data-page="home"><span>⌂</span><b>Главная</b></button>
+    <button class="navItem" data-page="diary"><span>✦</span><b>Дневник</b></button>
+    <button class="navItem" data-page="gallery"><span>▧</span><b>Галерея</b></button>
+    <button class="navItem" data-page="profile"><span>♛</span><b>Профиль</b></button>
+    <button class="navItem" data-page="settings"><span>⚙</span><b>Настройки</b></button>
+  </nav>
+</div>
+
+<div id="viewer" class="viewer hidden">
+  <button id="viewerClose" class="viewerClose">×</button>
+  <button id="viewerPrev" class="viewerArrow left">‹</button>
+  <div class="viewerStage"><img id="viewerImage" alt=""><div id="viewerCaption"></div></div>
+  <button id="viewerNext" class="viewerArrow right">›</button>
+</div>
+
+<div id="modal" class="modal hidden"><div class="modalCard"><div class="modalIcon">!</div><h3 id="modalTitle">Подтверждение</h3><p id="modalText">Вы уверены?</p><div><button id="modalNo" class="secondary">Отмена</button><button id="modalYes" class="danger">Продолжить</button></div></div></div>
+
+<div id="toast" class="toast"></div>
+<audio id="bgMusic" loop preload="none"><source src="assets/music/theme.mp3" type="audio/mpeg"></audio>
+<canvas id="particlesCanvas"></canvas>
+<script src="app.js"></script>
+</body>
+</html>
