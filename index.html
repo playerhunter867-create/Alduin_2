@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09040f">
+<meta name="description" content="ALDUIN — private dark fantasy journal">
+<title>ALDUIN — Ultimate Journal</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loader"><div class="loader-core"><div class="loader-eye"></div><b>ALDUIN</b><span>ПРОБУЖДЕНИЕ</span></div></div>
+
+<div id="particles"></div>
+<div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+
+<div id="app">
+<header class="topbar">
+  <div class="brand"><div class="brand-dragon">🐉</div><div><h1>ALDUIN</h1><small>PRIVATE DARK FANTASY JOURNAL</small></div></div>
+  <div class="header-right"><span id="clock">--:--</span><span class="online"><i></i> ONLINE</span></div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="side-title">ALDUIN</div>
+  <button class="nav active" data-page="dashboard">⌂ <span>Главная</span></button>
+  <button class="nav" data-page="diary">📖 <span>Дневник</span></button>
+  <button class="nav" data-page="gallery">🖼 <span>Галерея</span></button>
+  <button class="nav" data-page="profile">👑 <span>Профиль</span></button>
+  <button class="nav" data-page="timeline">◈ <span>Хронология</span></button>
+  <button class="nav" data-page="settings">⚙ <span>Настройки</span></button>
+  <div class="side-bottom"><div class="dragon-mini">◉</div><small>ALDUIN CORE<br>LOCAL STORAGE</small></div>
+</aside>
+
+<main class="content">
+<section id="dashboard" class="page active">
+  <div class="hero card"><div><label>PRIVATE WORLD</label><h2>Добро пожаловать<br><em>в мир Alduin</em></h2><p>Твой личный архив воспоминаний, изображений и записей.</p><div class="quick"><button class="primary" data-go="diary">✦ Новая запись</button><button data-go="gallery">＋ Добавить фото</button></div></div><div class="hero-eye"><div class="eye-sclera"><div class="iris"><div class="pupil"></div></div></div></div></div>
+  <div class="stats"><div class="stat card"><span>Дней вместе</span><strong id="days">0</strong><small>с 02.08.2026</small></div><div class="stat card"><span>Записей</span><strong id="noteCount">0</strong><small>в дневнике</small></div><div class="stat card"><span>Изображений</span><strong id="photoCount">0</strong><small>в архиве</small></div><div class="stat card"><span>Состояние</span><strong class="green">ONLINE</strong><small>локальная система</small></div></div>
+  <div class="two"><div class="card"><div class="card-head"><h3>Последняя запись</h3><button data-go="diary">Открыть →</button></div><div id="dashLast" class="empty">Записей пока нет.</div></div><div class="card"><div class="card-head"><h3>Последние изображения</h3><button data-go="gallery">Галерея →</button></div><div id="dashPhotos" class="mini-gallery"></div></div></div>
+</section>
+
+<section id="diary" class="page">
+<div class="page-title"><label>MEMORY ARCHIVE</label><h2>📖 Дневник</h2><p>Записывай мысли, события и воспоминания.</p></div>
+<div class="diary-grid"><div class="card editor"><input id="noteTitle" placeholder="Заголовок записи"><div class="editor-row"><select id="noteMood"><option>🌙 Спокойно</option><option>💜 Радость</option><option>🔥 Энергия</option><option>🌧 Грусть</option><option>🖤 Тяжёлый день</option></select><input id="noteTags" placeholder="Теги: день, мысли..."></div><textarea id="noteText" placeholder="Что произошло сегодня?"></textarea><div class="actions"><button id="saveNote" class="primary">💾 Сохранить запись</button><button id="clearEditor">Очистить</button></div></div><div class="card"><div class="card-head"><h3>Архив</h3><input id="noteSearch" class="search" placeholder="🔎 Поиск"></div><div id="notesList"></div></div></div>
+</section>
+
+<section id="gallery" class="page">
+<div class="page-title"><label>VISUAL ARCHIVE</label><h2>🖼 Галерея</h2><p>Твои изображения хранятся локально.</p></div>
+<div class="card uploadbar"><label class="upload primary">＋ Добавить изображения<input id="imageInput" type="file" accept="image/*" multiple></label><input id="gallerySearch" class="search wide" placeholder="🔎 Поиск по подписям"><select id="gallerySort"><option value="new">Новые сначала</option><option value="old">Старые сначала</option><option value="name">По названию</option></select></div>
+<div id="galleryGrid" class="gallery-grid"></div><div id="galleryEmpty" class="empty card">Галерея пуста.</div>
+</section>
+
+<section id="profile" class="page">
+<div class="page-title"><label>IDENTITY</label><h2>👑 Профиль Alduin</h2></div>
+<div class="profile card"><div class="avatar-wrap"><img id="avatar" src="assets/default-avatar.svg"><label class="upload mini">Изменить аватар<input id="avatarInput" type="file" accept="image/*"></label></div><div class="profile-fields"><input id="pName" value="Alduin"><input id="pType" value="Тульпа"><input id="pOrigin" value="Original Character"><input id="pTags" placeholder="OC, Anime, Game, Dark Fantasy..."><textarea id="pDescription" placeholder="Описание характера и внешности..."></textarea><button id="saveProfile" class="primary">💾 Сохранить профиль</button></div></div>
+<div class="profile-cards"><div class="card"><h3>✨ Характер</h3><p>Твоя персональная информация о характере Alduin.</p></div><div class="card"><h3>🌌 Образ</h3><p>Описание внешности, одежды, атмосферы и визуального образа.</p></div><div class="card"><h3>📅 Создание</h3><p>02 августа 2026 года</p></div></div>
+</section>
+
+<section id="timeline" class="page">
+<div class="page-title"><label>CHRONICLE</label><h2>◈ Хронология</h2><p>Единая лента твоих записей и событий.</p></div>
+<div id="timelineList" class="timeline"></div>
+</section>
+
+<section id="settings" class="page">
+<div class="page-title"><label>CONTROL ROOM</label><h2>⚙ Настройки</h2></div>
+<div class="settings-grid">
+<div class="card"><h3>🎨 Визуал</h3><label class="toggle"><input id="fxToggle" type="checkbox" checked><span></span> Частицы</label><label class="toggle"><input id="glowToggle" type="checkbox" checked><span></span> Свечение</label><label class="toggle"><input id="motionToggle" type="checkbox" checked><span></span> Анимации</label></div>
+<div class="card"><h3>💾 Данные</h3><button id="exportBtn">📦 Экспорт резервной копии</button><button id="importBtn">📥 Импорт резервной копии</button><button id="clearBtn" class="danger">🗑 Очистить всё</button></div>
+<div class="card"><h3>ℹ Система</h3><p class="muted">ALDUIN Ultimate Expanded<br>IndexedDB + LocalStorage<br>Без искусственного ограничения FPS</p></div>
+</div>
+</section>
+</main></div>
+
+<nav class="mobile-nav"><button class="nav active" data-page="dashboard">⌂<span>Главная</span></button><button class="nav" data-page="diary">📖<span>Дневник</span></button><button class="nav" data-page="gallery">🖼<span>Галерея</span></button><button class="nav" data-page="profile">👑<span>Профиль</span></button><button class="nav" data-page="settings">⚙<span>Ещё</span></button></nav>
+</div>
+
+<div id="viewer" hidden><button id="viewerClose">×</button><button id="viewerPrev">‹</button><img id="viewerImg"><button id="viewerNext">›</button></div>
+<div id="toast"></div>
+<script src="app.js" defer></script>
+</body></html>
