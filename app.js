@@ -1,0 +1,169 @@
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const KEY={notes:'alduin_notes_v3',profile:'alduin_profile_v3',lore:'alduin_lore_v3',avatar:'alduin_avatar_v3',settings:'alduin_settings_v3'};
+let notes=[],photos=[],db=null,viewIndex=0,calDate=new Date();
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const load=(k,d)=>{try{const x=localStorage.getItem(k);return x?JSON.parse(x):d}catch{return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){console.warn(e)}};
+function toast(t){const e=$('toast');if(!e)return;e.textContent=t;e.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.classList.remove('show'),1800)}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'})}
+function nav(){document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>showPage(b.dataset.page));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>showPage(b.dataset.go));const m=document.querySelector('.mobile');if(m){m.innerHTML=['home','diary','gallery','profile','settings'].map(id=>`<button data-page="${id}">${({home:'⌂',diary:'📖',gallery:'🖼',profile:'👑',settings:'⚙'})[id]}</button>`).join('');m.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>showPage(b.dataset.page))}}
+function openDB(){return new Promise((resolve,reject)=>{if(!window.indexedDB)return reject(new Error('no indexedDB'));let r=indexedDB.open('ALDUIN_X_V3',1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('photos'))r.result.createObjectStore('photos',{keyPath:'id',autoIncrement:true})};r.onsuccess=()=>{db=r.result;resolve()};r.onerror=()=>reject(r.error);r.onblocked=()=>reject(new Error('blocked'))})}
+function dbAll(){return new Promise((res,rej)=>{if(!db)return rej();let r=db.transaction('photos').objectStore('photos').getAll();r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function dbAdd(p){return new Promise((res,rej)=>{if(!db)return rej();let r=db.transaction('photos','readwrite').objectStore('photos').add(p);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function dbDel(id){return new Promise((res,rej)=>{if(!db)return rej();let r=db.transaction('photos','readwrite').objectStore('photos').delete(id);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
+function renderNotes(){const q=($('nq')?.value||'').toLowerCase();const a=notes.filter(n=>(n.title+' '+n.text+' '+n.tags).toLowerCase().includes(q)).sort((a,b)=>b.date-a.date);$('notes').innerHTML=a.length?a.map(n=>`<article class="glass panel" style="margin:9px 0"><div class="panelhead"><div><h2>${esc(n.mood)} ${esc(n.title||'Без названия')}</h2><small>${new Date(n.date).toLocaleString('ru-RU')}</small></div><button data-del-note="${n.id}">×</button></div><p>${esc(n.text).replace(/\n/g,'<br>')}</p><small>${esc(n.tags)}</small></article>`).join(''):'<div class="empty">Записей пока нет.</div>';document.querySelectorAll('[data-del-note]').forEach(b=>b.onclick=()=>{notes=notes.filter(n=>n.id!==b.dataset.delNote);save(KEY.notes,notes);renderAll()})}
+function renderGallery(){const q=($('gq')?.value||'').toLowerCase();let a=photos.filter(p=>(p.name||'').toLowerCase().includes(q));const sort=$('sort')?.value||'new';a.sort((x,y)=>sort==='old'?x.date-y.date:sort==='name'?(x.name||'').localeCompare(y.name||''):y.date-x.date);$('galleryGrid').innerHTML=a.map(p=>`<div class="gitem"><img src="${p.data}" data-open="${p.id}"><button data-del-photo="${p.id}">×</button></div>`).join('');$('gEmpty').hidden=photos.length>0;document.querySelectorAll('[data-open]').forEach(i=>i.onclick=()=>openViewer(i.dataset.open));document.querySelectorAll('[data-del-photo]').forEach(b=>b.onclick=async()=>{try{if(db)await dbDel(Number(b.dataset.delPhoto))}catch{}photos=photos.filter(p=>String(p.id)!==String(b.dataset.delPhoto));renderAll()})}
+function openViewer(id){viewIndex=photos.findIndex(p=>String(p.id)===String(id));if(viewIndex<0)return;$('viewImg').src=photos[viewIndex].data;$('viewer').hidden=false}
+function step(d){if(!photos.length)return;viewIndex=(viewIndex+d+photos.length)%photos.length;$('viewImg').src=photos[viewIndex].data}
+function renderHome(){const days=Math.max(0,Math.floor((Date.now()-Date.parse('2026-08-02T00:00:00Z'))/86400000));$('days').textContent=days;$('notesN').textContent=notes.length;$('photosN').textContent=photos.length;const n=[...notes].sort((a,b)=>b.date-a.date)[0];$('lastNote').innerHTML=n?`<h2>${esc(n.title||'Без названия')}</h2><p>${esc(n.text).slice(0,300)}</p>`:'Пока пусто.';$('miniGallery').innerHTML=photos.slice().sort((a,b)=>b.date-a.date).slice(0,4).map(p=>`<img src="${p.data}" data-open="${p.id}">`).join('');document.querySelectorAll('#miniGallery [data-open]').forEach(i=>i.onclick=()=>openViewer(i.dataset.open))}
+function renderTimeline(){$('timelineList').innerHTML=notes.slice().sort((a,b)=>b.date-a.date).map(n=>`<article class="timeline-item glass"><small>${new Date(n.date).toLocaleString('ru-RU')}</small><h2>${esc(n.mood)} ${esc(n.title||'Без названия')}</h2><p>${esc(n.text).slice(0,450)}</p></article>`).join('')||'<div class="empty glass">Хронология пуста.</div>'}
+function renderCalendar(){const y=calDate.getFullYear(),m=calDate.getMonth();$('month').textContent=new Date(y,m,1).toLocaleDateString('ru-RU',{month:'long',year:'numeric'});let first=(new Date(y,m,1).getDay()+6)%7,days=new Date(y,m+1,0).getDate(),html='';for(let i=0;i<first;i++)html+='<div></div>';for(let d=1;d<=days;d++){const has=notes.some(n=>{const x=new Date(n.date);return x.getFullYear()===y&&x.getMonth()===m&&x.getDate()===d});html+=`<button class="day ${has?'has':''}" data-day="${d}"><b>${d}</b>${has?'<br>✦':''}</button>`}$('cal').innerHTML=html;document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{const d=+b.dataset.day,a=notes.filter(n=>{const x=new Date(n.date);return x.getFullYear()===y&&x.getMonth()===m&&x.getDate()===d});$('dayInfo').innerHTML=a.length?a.map(n=>`<h3>${esc(n.title||'Без названия')}</h3><p>${esc(n.text)}</p>`).join(''):'<p>В этот день записей нет.</p>'})}
+function loadProfile(){const p=load(KEY.profile,{});$('pn').value=p.name||'Alduin';$('pt').value=p.type||'Тульпа';$('po').value=p.origin||'Original Character';$('ptags').value=p.tags||'';$('pd').value=p.desc||'';const a=localStorage.getItem(KEY.avatar);if(a)$('avatar').src=a;const l=load(KEY.lore,{});$('loreChar').value=l.char||'';$('loreLook').value=l.look||'';$('loreCanon').value=l.canon||''}
+function renderAll(){renderHome();renderNotes();renderGallery();renderTimeline();renderCalendar()}
+function startFPS(){let last=performance.now(),frames=0;function loop(t){frames++;if(t-last>=500){const v=Math.round(frames*1000/(t-last));$('fps').textContent=v;if($('fps2'))$('fps2').textContent=v;frames=0;last=t}requestAnimationFrame(loop)}requestAnimationFrame(loop)}
+function startParticles(){const host=$('particles');if(!host)return;const c=document.createElement('canvas'),ctx=c.getContext('2d',{alpha:true});host.appendChild(c);let ps=[];function resize(){c.width=innerWidth;c.height=innerHeight;ps=Array.from({length:Math.min(70,Math.max(20,Math.floor(innerWidth/18)))},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:.4+Math.random()*1.4,v:.15+Math.random()*.25,a:.12+Math.random()*.35}))}resize();addEventListener('resize',resize,{passive:true});function draw(){ctx.clearRect(0,0,c.width,c.height);for(const p of ps){p.y-=p.v;if(p.y<0)p.y=c.height;ctx.globalAlpha=p.a;ctx.fillStyle='#c98bff';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill()}requestAnimationFrame(draw)}requestAnimationFrame(draw)}
+function settings(){const s=load(KEY.settings,{fx:true,glow:true,motion:true});$('fx').checked=s.fx;$('glow').checked=s.glow;$('motion').checked=s.motion;function apply(){const v={fx:$('fx').checked,glow:$('glow').checked,motion:$('motion').checked};document.body.classList.toggle('no-particles',!v.fx);document.body.classList.toggle('no-glow',!v.glow);document.body.classList.toggle('no-motion',!v.motion);save(KEY.settings,v)}['fx','glow','motion'].forEach(id=>$(id).onchange=apply);apply()}
+async function addImages(files){for(const f of files){const data=await new Promise(ok=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>ok(null);r.readAsDataURL(f)});if(!data)continue;const p={name:f.name,data,date:Date.now()};try{if(db){const id=await dbAdd(p);p.id=id}else p.id='local-'+Date.now()+'-'+Math.random()}catch{p.id='local-'+Date.now()+'-'+Math.random()}photos.push(p)}renderAll();toast('Изображения добавлены')}
+function wire(){nav();$('saveNote').onclick=()=>{const text=$('ntext').value.trim();if(!text)return toast('Сначала напиши текст');notes.push({id:(crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random())),date:Date.now(),title:$('nt').value,mood:$('nm').value,tags:$('ntag').value,text});save(KEY.notes,notes);$('nt').value='';$('ntext').value='';$('ntag').value='';renderAll();toast('Воспоминание сохранено')};$('nq').oninput=renderNotes;$('gq').oninput=renderGallery;$('sort').onchange=renderGallery;$('files').onchange=e=>{if(e.target.files?.length)addImages([...e.target.files]);e.target.value=''};$('saveProfile').onclick=()=>{save(KEY.profile,{name:$('pn').value,type:$('pt').value,origin:$('po').value,tags:$('ptags').value,desc:$('pd').value});toast('Профиль сохранён')};$('saveLore').onclick=()=>{save(KEY.lore,{char:$('loreChar').value,look:$('loreLook').value,canon:$('loreCanon').value});toast('Лор сохранён')};$('avatarFile').onchange=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{localStorage.setItem(KEY.avatar,r.result);$('avatar').src=r.result};r.readAsDataURL(f)};$('prevM').onclick=()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()};$('nextM').onclick=()=>{calDate.setMonth(calDate.getMonth()+1);renderCalendar()};$('close').onclick=()=>$('viewer').hidden=true;$('prev').onclick=()=>step(-1);$('next').onclick=()=>step(1);document.addEventListener('keydown',e=>{if($('viewer').hidden)return;if(e.key==='Escape')$('viewer').hidden=true;if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1)});$('export').onclick=()=>{const data={version:3,notes,profile:load(KEY.profile,{}),lore:load(KEY.lore,{}),avatar:localStorage.getItem(KEY.avatar)||'',photos};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));a.download='ALDUIN_X_BACKUP.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};$('import').onclick=()=>{const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=async()=>{try{const d=JSON.parse(await i.files[0].text());notes=d.notes||[];save(KEY.notes,notes);if(d.profile)save(KEY.profile,d.profile);if(d.lore)save(KEY.lore,d.lore);if(d.avatar)localStorage.setItem(KEY.avatar,d.avatar);if(db&&d.photos)for(const p of d.photos)await dbAdd({name:p.name,data:p.data,date:p.date});location.reload()}catch{toast('Ошибка импорта')}};i.click()};$('wipe').onclick=async()=>{if(!confirm('Удалить все данные ALDUIN?'))return;Object.values(KEY).forEach(k=>localStorage.removeItem(k));try{if(db){const r=db.transaction('photos','readwrite').objectStore('photos').clear();await new Promise(ok=>{r.onsuccess=ok})}}catch{}location.reload()};settings();startParticles();startFPS();setInterval(()=>{$('clock').textContent=new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})},1000);$('clock').textContent=new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}
+function bootSequence(){
+  const bar=$("bootBar"), pct=$("bootPercent"), status=$("bootStatus");
+  const steps=[
+    ["AWAKENING ALDUIN CORE",18],
+    ["LOADING MEMORY ARCHIVE",36],
+    ["SYNCING VISUAL ENGINE",54],
+    ["INITIALIZING PARTICLE FIELD",72],
+    ["CALIBRATING DISPLAY PIPELINE",88],
+    ["CORE ONLINE",100]
+  ];
+  let i=0;
+  function step(){
+    if(i>=steps.length)return;
+    const [label,n]=steps[i++];
+    if(status)status.textContent=label;
+    if(bar)bar.style.width=n+"%";
+    if(pct)pct.textContent=n+"%";
+    setTimeout(step,i<steps.length?90:120);
+  }
+  step();
+}
+async 
+/* ===== ALDUIN AI / LOCAL WEBLLM ===== */
+const ALDUIN_AI_MODEL = "Phi-3.5-mini-instruct-q4f16_1-MLC";
+let alduinEngine = null;
+let alduinAIReady = false;
+let alduinHistory = [];
+
+function aiEl(id){ return document.getElementById(id); }
+function aiAdd(role,text){
+  const chat=aiEl("aiChat"); if(!chat)return;
+  const box=document.createElement("div");
+  box.className="ai-msg "+role;
+  box.innerHTML="<b>"+(role==="user"?"YOU":"ALDUIN AI")+"</b><p></p>";
+  box.querySelector("p").textContent=text;
+  chat.appendChild(box);
+  chat.scrollTop=chat.scrollHeight;
+  return box.querySelector("p");
+}
+function aiStatus(text,on=false){
+  const s=aiEl("aiStatus"); if(!s)return;
+  const span=s.querySelector("span"); if(span)span.textContent=text;
+  s.classList.toggle("online",on);
+}
+function checkLocalAI(){
+  const status=aiEl("aiStatus");
+  const load=aiEl("aiLoad");
+  const note=aiEl("aiCapability");
+  if(!window.webllm){
+    aiStatus("БИБЛИОТЕКА НЕ ЗАГРУЖЕНА");
+    if(load){load.disabled=true;load.textContent="AI недоступен";}
+    if(note)note.textContent="Не удалось загрузить Local AI. Проверь интернет.";
+    return false;
+  }
+  if(!("gpu" in navigator) || !navigator.gpu){
+    aiStatus("WEBGPU НЕДОСТУПЕН");
+    if(load){load.disabled=true;load.textContent="Local AI недоступен";}
+    if(note)note.textContent="Этот браузер не предоставляет WebGPU. Остальная часть ALDUIN продолжает работать.";
+    return false;
+  }
+  aiStatus("ГОТОВ К ЗАПУСКУ");
+  if(load){load.disabled=false;load.textContent="⚡ Запустить Local AI";}
+  if(note)note.textContent="WebGPU обнаружен. Модель будет загружена при первом запуске.";
+  return true;
+}
+async function startALDUINAI(){
+  if(alduinAIReady)return;
+  if(!checkLocalAI())return;
+  const load=aiEl("aiLoad"), wrap=aiEl("aiProgressWrap"), bar=aiEl("aiProgressBar"), txt=aiEl("aiProgressText");
+  if(load)load.disabled=true;
+  if(wrap)wrap.hidden=false;
+  aiStatus("ЗАГРУЗКА…");
+  try{
+    const initProgressCallback=(p)=>{
+      const v=Math.max(0,Math.min(100,Math.round((p.progress||0)*100)));
+      if(bar)bar.style.width=v+"%";
+      if(txt)txt.textContent=p.text||("Загрузка модели "+v+"%");
+    };
+    alduinEngine=await webllm.CreateMLCEngine(ALDUIN_AI_MODEL,{initProgressCallback});
+    alduinAIReady=true;
+    aiStatus("LOCAL AI ONLINE",true);
+    if(load){load.textContent="✓ Local AI запущен";load.disabled=false}
+    if(txt)txt.textContent="Модель готова.";
+    aiAdd("ai","Я онлайн. Local AI работает прямо на этом устройстве.");
+  }catch(e){
+    console.error(e);
+    aiStatus("НЕ УДАЛОСЬ ЗАПУСТИТЬ");
+    if(load){load.disabled=false;load.textContent="↻ Попробовать снова"}
+    if(txt)txt.textContent="Модель не запустилась.";
+    aiAdd("ai","Модель не удалось запустить. Проверь поддержку WebGPU, свободную память и интернет для первой загрузки.");
+  }
+}
+async function sendALDUINAI(text){
+  if(!alduinAIReady){aiAdd("ai","Сначала нажми «Запустить Local AI».");return;}
+  const p=aiAdd("ai","");
+  try{
+    alduinHistory.push({role:"user",content:text});
+    const result=await alduinEngine.chat.completions.create({
+      messages:[
+        {role:"system",content:"Ты ALDUIN AI внутри личного сайта пользователя. Отвечай дружелюбно, спокойно и кратко. Не выдавай себя за реального человека. Уважай приватность пользователя."},
+        ...alduinHistory
+      ],
+      temperature:0.7,
+      max_tokens:512,
+      stream:true
+    });
+    let full="";
+    for await(const chunk of result){
+      const delta=chunk.choices?.[0]?.delta?.content||"";
+      full+=delta;
+      if(p)p.textContent=full;
+      aiEl("aiChat").scrollTop=aiEl("aiChat").scrollHeight;
+    }
+    alduinHistory.push({role:"assistant",content:full});
+  }catch(e){
+    console.error(e);
+    if(p)p.textContent="Ошибка ответа: "+(e?.message||e);
+  }
+}
+function setupALDUINAI(){
+  const load=aiEl("aiLoad"), form=aiEl("aiForm"), input=aiEl("aiInput"), clear=aiEl("aiClear");
+  checkLocalAI();
+  if(load)load.addEventListener("click",startALDUINAI);
+  if(clear)clear.addEventListener("click",()=>{
+    alduinHistory=[];
+    const chat=aiEl("aiChat");
+    if(chat)chat.innerHTML='<div class="ai-msg ai"><b>ALDUIN AI</b><p>Чат очищен.</p></div>';
+  });
+  if(form)form.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const text=(input?.value||"").trim(); if(!text)return;
+    aiAdd("user",text); input.value="";
+    await sendALDUINAI(text);
+  });
+}
+document.addEventListener("DOMContentLoaded",setupALDUINAI,{once:true});
+
+function boot(){const safety=setTimeout(()=>{$('loader')?.classList.add('hide')},1000);try{notes=load(KEY.notes,[]);loadProfile();wire();renderAll();try{await openDB();photos=await dbAll();renderAll()}catch(e){console.warn('Gallery DB unavailable',e)}startFPS();}catch(e){console.error('ALDUIN startup',e)}finally{clearTimeout(safety);$('loader')?.classList.add('hide')}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
