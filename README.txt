@@ -28,3 +28,6 @@ AI:
 Live2D-модель должна содержать все необходимые файлы. Если ZIP содержит несколько моделей, выбери ZIP с нужным .model3.json. Для лицензированных моделей используй их согласно условиям автора/Live2D.
 
 LIVE2D FIX: исправлена ошибка браузера "Cannot set property webkitRelativePath". Загрузчик больше не изменяет read-only свойство File; пути ZIP/папки хранятся отдельно.
+
+
+LIVE2D ZIP FIX: исправлено чтение .model3.json на Android/Chrome через FileReader с fallback для Blob/File.
