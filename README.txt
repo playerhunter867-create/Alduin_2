@@ -23,3 +23,6 @@ Live2D Cubism Core является отдельным runtime Live2D. Эта с
 - Вложенные папки внутри ZIP разрешены.
 - Сайт автоматически ищет .model3.json и переписывает ссылки на Blob URL.
 - Для Cubism 3/4 моделей папка models на GitHub не требуется.
+
+
+MOBILE MULTI-MODEL UPDATE: added built-in Miku Sample and Miku Free. Model files are flat in site root so no model folders are required. Mobile AI dock is compact/collapsed by default and expands only when tapped.
